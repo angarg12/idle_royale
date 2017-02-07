@@ -1,0 +1,62 @@
+.navbar-brand {
+  padding-bottom:55px;
+}
+
+.navbar-brand small {
+  display:block;
+  font-size:85%;
+}
+
+body{
+    padding-bottom:170px;
+}
+
+.affix {
+	top:0;
+	width:20%;
+}
+
+.element-table tr:first-child td {
+    border: 0px none;
+}
+
+.right-box {
+	padding-left:0px;
+}
+
+.no_bottom {
+    margin-bottom: 0px;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > td > span {
+     vertical-align: middle;
+}
+
+.icon {
+	font-size:150%;
+}
+
+.by-icon {
+	line-height:2.14305;
+}
+
+.table_tab {
+	text-align: center;
+}
+
+.title {
+	font-size: 30px;
+	font-weight: 500;
+	line-height: 33px;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.vertical {
+	border-left: solid #000000;
+}
+
+.button-small {
+	width:36px;
+	height:36px;
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=us-ascii" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <script type="text/javascript" src="lib/angular.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="src/modules/module.js"></script>
+    <script type="text/javascript" src="src/services/generator.js"></script>
+    <script type="text/javascript" src="src/services/player.js"></script>
+    <script type="text/javascript" src="src/services/savegame.js"></script>
+    <script type="text/javascript" src="src/services/upgrade.js"></script>
+    <script type="text/javascript" src="src/services/util.js"></script>
+    <script type="text/javascript" src="src/controllers/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/base-bootstrap.min.css" id="theme_css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <title>Idle Royale</title>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-58136427-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body class="ng-scope theme-none" ng-app="incremental" ng-controller="IncCtrl">
+    <div class="container">
+      <div class="navbar navbar-default " ng-show="player.getPlayer().intro.banner">
+        <div class="container">
+          <div class="navbar-header">
+            <span class="navbar-brand page-title">
+            Idle Royale <sub>a competitive idle experiment</sub>
+			<small>by angarg12</small>
+            </span> 
+            <span class="navbar-brand">
+            <span class="text-muted small">v{{version}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="viewwrap">
+        <div>
+          <div class="ng-scope ng-isolate-scope ">
+            <ul class="nav nav-tabs ng-scope" role="tablist">
+              <li class=""
+                ng-class="{active: current_tab === 'Game'}">
+                <a class="ng-binding" ng-click="util.updateCurrent('current_tab','Game')"> Game 
+                </a>
+              </li>
+              <li class=""
+                ng-class="{active: current_tab === 'Tutorial'}">
+                <a class="ng-binding" ng-click="util.updateCurrent('current_tab','Tutorial')"> Tutorial 
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content ng-scope " id="game">
+            <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
+              <div class="col-lg-6">
+                <h1>Player</h1>
+                <h2>Power</h2>
+                <h2>{{player.power}}</h2>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(generator.totalProduction()))" id="production_total"></span>/s</h3>
+                <div>
+                  <div>
+                    <hr>
+                    <h4>Generators</h4>
+                    <table class="table">
+                      <tbody>
+                        <tr ng-repeat="name in generator.getKeys()">
+                          <td class="col-md-1">
+                            <span class="pull-left">
+                            {{name}}
+                            </span>
+                          </td>
+                          <td class="col-md-1">
+                            <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(player.getPlayer().generators[name].level))"></div>
+                          </td>
+                          <td class="col-md-1">
+                            <div class="pull-left">
+                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(generator.tierProduction(name)))"></span> /s
+                            </div>
+                          </td>
+                          <td class="col-md-1">
+                            <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generator.generatorPrice(name)))"></div>
+                            &nbsp;
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+				  <div>
+                    <hr>
+                    <h4>Upgrades</h4>
+                    <table class="table">
+                      <tbody>
+                        <tr ng-repeat="up in upgrade.getKeys()">
+						  <td class="col-md-1">
+						    {{up}}
+						  </td>
+						  <td class="col-md-1">
+						    {{upgrade.getUpgrades()[up].description}}
+						  </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+			</div>
+		  </div>
+          <div class="tab-content ng-scope" id="encyclopedia">
+            <div class="tab-pane row" ng-class="{active: current_tab == 'Encyclopedia'}">
+              <div class="col-lg-12">                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </body>
+</html>
