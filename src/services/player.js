@@ -4,7 +4,7 @@ angular
 [
 function() {  
   var $scope;
-  var player;
+  this.player;
 
   var startPlayer = {
 	power: 0,
@@ -21,6 +21,46 @@ function() {
 		'Tier 10':{level:0},
 	},
 	upgrades: {
+		"Tier 1-1": {bought:false},
+		"Tier 1-2": {bought:false},
+		"Tier 1-3": {bought:false},
+		"Tier 1-4": {bought:false},
+		"Tier 2-1": {bought:false},
+		"Tier 2-2": {bought:false},
+		"Tier 2-3": {bought:false},
+		"Tier 2-4": {bought:false},
+		"Tier 3-1": {bought:false},
+		"Tier 3-2": {bought:false},
+		"Tier 3-3": {bought:false},
+		"Tier 3-4": {bought:false},
+		"Tier 4-1": {bought:false},
+		"Tier 4-2": {bought:false},
+		"Tier 4-3": {bought:false},
+		"Tier 4-4": {bought:false},
+		"Tier 5-1": {bought:false},
+		"Tier 5-2": {bought:false},
+		"Tier 5-3": {bought:false},
+		"Tier 5-4": {bought:false},
+		"Tier 6-1": {bought:false},
+		"Tier 6-2": {bought:false},
+		"Tier 6-3": {bought:false},
+		"Tier 6-4": {bought:false},
+		"Tier 7-1": {bought:false},
+		"Tier 7-2": {bought:false},
+		"Tier 7-3": {bought:false},
+		"Tier 7-4": {bought:false},
+		"Tier 8-1": {bought:false},
+		"Tier 8-2": {bought:false},
+		"Tier 8-3": {bought:false},
+		"Tier 8-4": {bought:false},
+		"Tier 9-1": {bought:false},
+		"Tier 9-2": {bought:false},
+		"Tier 9-3": {bought:false},
+		"Tier 9-4": {bought:false},
+		"Tier 10-1": {bought:false},
+		"Tier 10-2": {bought:false},
+		"Tier 10-3": {bought:false},
+		"Tier 10-4": {bought:false}
 	}
   };
   
@@ -30,10 +70,6 @@ function() {
   };
 
   this.populatePlayer = function () {
-    player = angular.copy(startPlayer);
+    this.player = angular.copy(startPlayer);
   };
-  
-  this.getPlayer = function() {
-	return angular.copy(player);
-  }
 }]);

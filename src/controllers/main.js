@@ -12,8 +12,9 @@ angular
 'savegame',
 'generator',
 'upgrade',
-function ($scope, $document, $interval, $sce, $filter, $timeout, util, player, savegame, generator, upgrade) {
-  $scope.version = '0.0.0';
+'script',
+function ($scope, $document, $interval, $sce, $filter, $timeout, util, player, savegame, generator, upgrade, script) {
+  $scope.version = '0.0.3';
   $scope.Math = window.Math;
   
   $scope.player = player;
@@ -21,6 +22,8 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, player, s
   $scope.savegame = savegame;
   $scope.generator = generator;
   $scope.upgrade = upgrade;
+  $scope.script = script;
+  $scope.temp_script;
   var self = this;
   
   $scope.current_tab = "Game";

@@ -73,8 +73,8 @@ function(player) {
   };
 
   this.generatorPrice = function (name) {
-	if(!player.getPlayer()) return;
-    var level = player.getPlayer().generators[name].level;
+	if(!player.player) return;
+    var level = player.player.generators[name].level;
     var price = generators[name].price * Math.pow(generators[name].priceIncrease, level);
     return Math.ceil(price);
   };
@@ -83,24 +83,24 @@ function(player) {
     var price = this.generatorPrice(name);
     var i = 0;
     // we need a loop since we use the ceil operator
-    while (i < number && player.getPlayer().power >= price) {
-      player.getPlayer().power -= price;
-      player.getPlayer().generators[name].level++;
+    while (i < number && player.player.power >= price) {
+      player.player.power -= price;
+      player.player.generators[name].level++;
       price = this.generatorPrice(name);
       i++;
     }
   };
   
   this.generatorProduction = function (name) {
-	  if(!player.getPlayer()) return;
+	  if(!player.player) return;
     var baseProduction = generators[name].power;
     return $scope.upgradedProduction(baseProduction, name);
   };
 
   this.tierProduction = function (name) {
-	  if(!player.getPlayer()) return;
+	  if(!player.player) return;
     var baseProduction = generators[name].power *
-                         player.getPlayer().generators[name].level;
+                         player.player.generators[name].level;
     return $scope.upgradedProduction(baseProduction, name);
   };
   

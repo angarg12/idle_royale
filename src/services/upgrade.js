@@ -26,26 +26,6 @@ function(player, generator) {
       "description" : "Tier 1 production x2",
       "power" : 2
     },
-    "Tier 1-5": {
-      "price" : 10000000,
-      "description" : "Tier 1 production x2",
-      "power" : 2
-    },
-    "Tier 1-6": {
-      "price" : 100000000,
-      "description" : "Tier 1 production x2",
-      "power" : 2
-    },
-    "Tier 1-7": {
-      "price" : 1000000000,
-      "description" : "Tier 1 production x2",
-      "power" : 2
-    },
-    "Tier 1-8": {
-      "price" : 10000000000,
-      "description" : "Tier 1 production x2",
-      "power" : 2
-    },
     "Tier 2-1": {
       "price" : 1000,
       "description" : "Tier 2  production x2",
@@ -63,26 +43,6 @@ function(player, generator) {
     },
     "Tier 2-4": {
       "price" : 5000000,
-      "description" : "Tier 2  production x2",
-      "power" : 2
-    },
-    "Tier 2-5": {
-      "price" : 500000000,
-      "description" : "Tier 2  production x2",
-      "power" : 2
-    },
-    "Tier 2-6": {
-      "price" : 50000000000,
-      "description" : "Tier 2  production x2",
-      "power" : 2
-    },
-    "Tier 2-7": {
-      "price" : 50000000000000,
-      "description" : "Tier 2  production x2",
-      "power" : 2
-    },
-    "Tier 2-8": {
-      "price" : 5.0e+16,
       "description" : "Tier 2  production x2",
       "power" : 2
     },
@@ -106,26 +66,6 @@ function(player, generator) {
       "description" : "Tier 3  production x2",
       "power" : 2
     },
-    "Tier 3-5": {
-      "price" : 5500000000,
-      "description" : "Tier 3  production x2",
-      "power" : 2
-    },
-    "Tier 3-6": {
-      "price" : 550000000000,
-      "description" : "Tier 3  production x2",
-      "power" : 2
-    },
-    "Tier 3-7": {
-      "price" : 5.5e+14,
-      "description" : "Tier 3  production x2",
-      "power" : 2
-    },
-    "Tier 3-8": {
-      "price" : 5.5e+17,
-      "description" : "Tier 3  production x2",
-      "power" : 2
-    },
     "Tier 4-1": {
       "price" : 120000,
       "description" : "Tier 4  production x2",
@@ -143,26 +83,6 @@ function(player, generator) {
     },
     "Tier 4-4": {
       "price" : 600000000,
-      "description" : "Tier 4  production x2",
-      "power" : 2
-    },
-    "Tier 4-5": {
-      "price" : 60000000000,
-      "description" : "Tier 4  production x2",
-      "power" : 2
-    },
-    "Tier 4-6": {
-      "price" : 6000000000000,
-      "description" : "Tier 4  production x2",
-      "power" : 2
-    },
-    "Tier 4-7": {
-      "price" : 6.0e+15,
-      "description" : "Tier 4  production x2",
-      "power" : 2
-    },
-    "Tier 4-8": {
-      "price" : 6.0e+18,
       "description" : "Tier 4  production x2",
       "power" : 2
     },
@@ -186,26 +106,6 @@ function(player, generator) {
       "description" : "Tier 5  production x2",
       "power" : 2
     },
-    "Tier 5-5": {
-      "price" : 650000000000,
-      "description" : "Tier 5  production x2",
-      "power" : 2
-    },
-    "Tier 5-6": {
-      "price" : 65000000000000,
-      "description" : "Tier 5  production x2",
-      "power" : 2
-    },
-    "Tier 5-7": {
-      "price" : 6.5e+16,
-      "description" : "Tier 5  production x2",
-      "power" : 2
-    },
-    "Tier 5-8": {
-      "price" : 6.5e+19,
-      "description" : "Tier 5  production x2",
-      "power" : 2
-    },
     "Tier 6-1": {
       "price" : 14000000,
       "description" : "Tier 6  production x2",
@@ -223,26 +123,6 @@ function(player, generator) {
     },
     "Tier 6-4": {
       "price" : 70000000000,
-      "description" : "Tier 6  production x2",
-      "power" : 2
-    },
-    "Tier 6-5": {
-      "price" : 7000000000000,
-      "description" : "Tier 6  production x2",
-      "power" : 2
-    },
-    "Tier 6-6": {
-      "price" : 7.0e+14,
-      "description" : "Tier 6  production x2",
-      "power" : 2
-    },
-    "Tier 6-7": {
-      "price" : 7.0e+17,
-      "description" : "Tier 6  production x2",
-      "power" : 2
-    },
-    "Tier 6-8": {
-      "price" : 7.0e+20,
       "description" : "Tier 6  production x2",
       "power" : 2
     },
@@ -266,26 +146,6 @@ function(player, generator) {
       "description" : "Tier 7  production x2",
       "power" : 2
     },
-    "Tier 7-5": {
-      "price" : 1.0e+14,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 7-6": {
-      "price" : 1.0e+16,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 7-7": {
-      "price" : 1.0e+19,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 7-8": {
-      "price" : 1.0e+22,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
     "Tier 8-1": {
       "price" : 3300000000,
       "description" : "Tier 8  production x2",
@@ -303,26 +163,6 @@ function(player, generator) {
     },
     "Tier 8-4": {
       "price" : 16500000000000,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-5": {
-      "price" : 1.65e+15,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-6": {
-      "price" : 1.65e+17,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-7": {
-      "price" : 1.65e+20,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-8": {
-      "price" : 1.65e+23,
       "description" : "Tier 8  production x2",
       "power" : 2
     },
@@ -346,26 +186,6 @@ function(player, generator) {
       "description" : "Tier 9  production x2",
       "power" : 2
     },
-    "Tier 9-5": {
-      "price" : 2.55e+16,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 9-6": {
-      "price" : 2.55e+18,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 9-7": {
-      "price" : 2.55e+21,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 9-8": {
-      "price" : 2.55e+24,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
     "Tier 10-1": {
       "price" : 750000000000,
       "description" : "Tier 10  production x2",
@@ -384,26 +204,6 @@ function(player, generator) {
     },
     "Tier 10-4": {
       "price" : 3.75e+15,
-      "description" : "Tier 10  production x2",
-      "power" : 2
-    },
-    "Tier 10-5": {
-      "price" : 3.75e+17,
-      "description" : "Tier 10  production x2",
-      "power" : 2
-    },
-    "Tier 10-6": {
-      "price" : 3.75e+19,
-      "description" : "Tier 10  production x2",
-      "power" : 2
-    },
-    "Tier 10-7": {
-      "price" : 3.75e+22,
-      "description" : "Tier 10  production x2",
-      "power" : 2
-    },
-    "Tier 10-8": {
-      "price" : 3.75e+25,
       "description" : "Tier 10  production x2",
       "power" : 2
     }
@@ -435,23 +235,12 @@ function(player, generator) {
       player.data.upgrades[name].bought = true;
     }
   };
-  
-  this.lastUpgradeTierPrice = function (tier) {
-	var generators = generator.getGenerators()
-    for(var upgrade in generators[tier].upgrades) {
-      if(!player.data.upgrades[generators[tier].upgrades[upgrade]].bought) {
-        return upgrades[generators[tier].upgrades[upgrade]].price;
-      }
-    }
-    return null;
-  };
-  
 
   this.upgradedProduction = function (production, name) {
-	if(!player.getPlayer()) return;
+	if(!player.player) return;
 	var generators = generator.getGenerators()
     for(var upgrade in generators[name].upgrades) {
-        if(player.getPlayer().upgrades[generators[name].upgrades[upgrade]].bought) {
+        if(player.player.upgrades[generators[name].upgrades[upgrade]].bought) {
           power = upgrades[generators[name].upgrades[upgrade]].power;
           production = $scope.upgradeApply(production, power);
         }
