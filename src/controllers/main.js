@@ -32,6 +32,8 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   var self = this;
   
   $scope.current_tab = "Game";
+  $scope.turn = 0;
+  $scope.goal = 1e9;
 
   player.setScope($scope);
   util.setScope($scope);
@@ -77,6 +79,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   self.update = function () {
     self.processProduction();
 	script.eval();
+	$scope.turn++;
   };
 
   self.init = function () {

@@ -88,7 +88,7 @@ function Generator(player) {
     var i = 0;
 	
 	var price = this.buyPrice(name, number);
-	if(price < player.data.power){
+	if(price > player.data.power){
 		return false;
 	}
 	
