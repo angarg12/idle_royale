@@ -28,7 +28,8 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   $scope.upgrade = upgrade;
   $scope.script = script;
   $scope.enemy = enemy;
-  $scope.temp_script;
+  $scope.generatorEnemy = generatorEnemy;
+  $scope.upgradeEnemy = upgradeEnemy;
   var self = this;
   
   $scope.current_tab = "Game";
@@ -37,6 +38,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   $scope.error_msg = "";
 
   player.setScope($scope);
+  enemy.setScope($scope);
   util.setScope($scope);
   savegame.setScope($scope);
   
@@ -87,6 +89,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   self.init = function () {
     $scope.current_tab = "Game";
     player.populatePlayer();
+    enemy.populatePlayer();
   };
 
   self.startup = function () {

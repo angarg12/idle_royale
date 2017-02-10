@@ -64,7 +64,8 @@ function Player() {
 		"Tier 10-2": {bought:false},
 		"Tier 10-3": {bought:false},
 		"Tier 10-4": {bought:false}
-	}
+	},
+	script: "generator.buyGenerators('Tier 1',1);"
   };
   
   this.setScope = function (scope){

@@ -10,14 +10,14 @@ function(player) {
   };
 
   this.save = function () {
-    localStorage.setItem("playerStoredIR", $scope.temp_script);
+    localStorage.setItem("playerStoredIR", player.data.script);
   };
 
   this.load = function () {
     try {
       var save = localStorage.getItem("playerStoredIR");
 	  if(save){
-		$scope.temp_script = save;
+		player.data.script = save;
 	  }
     } catch (err) {
       alert("Error loading savegame, reset forced.");
