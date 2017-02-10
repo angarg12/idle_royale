@@ -7,7 +7,7 @@ angular
 
 function Player() {  
   var $scope;
-  this.player;
+  this.data;
 
   var startPlayer = {
 	power: 15,
@@ -73,6 +73,6 @@ function Player() {
   };
 
   this.populatePlayer = function () {
-    this.player = angular.copy(startPlayer);
+    this.data = angular.copy(startPlayer);
   };
 }

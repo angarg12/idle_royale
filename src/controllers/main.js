@@ -18,7 +18,7 @@ angular
 'upgradeEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, script, enemy, generatorEnemy, upgradeEnemy, scriptEnemy) {
-  $scope.version = '0.2.0';
+  $scope.version = '0.2.1';
   $scope.Math = window.Math;
   
   $scope.util = util;
@@ -38,15 +38,15 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   savegame.setScope($scope);
   
   $scope.generatorProduction = function (name) {
-	if(!player.player) return;
+	if(!player.data) return;
     var baseProduction = generator.getGenerators()[name].power;
     return $scope.upgradedProduction(baseProduction, name);
   };
 
   $scope.tierProduction = function (name) {
-	if(!player.player) return;
+	if(!player.data) return;
     var baseProduction = generator.getGenerators()[name].power *
-                         player.player.generators[name].level;
+                         player.data.generators[name].level;
     return $scope.upgradedProduction(baseProduction, name);
   };
   
@@ -59,10 +59,10 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   };
   
   $scope.upgradedProduction = function (production, name) {
-	if(!player.player) return;
+	if(!player.data) return;
 	var generators = generator.getGenerators()
     for(var upgrade in generators[name].upgrades) {
-        if(player.player.upgrades[generators[name].upgrades[upgrade]].bought) {
+        if(player.data.upgrades[generators[name].upgrades[upgrade]].bought) {
           power = upgrades[generators[name].upgrades[upgrade]].power;
           production = $scope.upgradeApply(production, power);
         }
@@ -71,7 +71,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   };
   
   self.processProduction = function () {
-	player.player.power += $scope.totalProduction();
+	player.data.power += $scope.totalProduction();
   };  
   
   self.update = function () {
@@ -86,6 +86,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
 
   self.startup = function () {
     self.init();
+	savegame.load();
     $interval(self.update, 100);
     $interval(savegame.save, 10000);
   };

@@ -73,19 +73,23 @@ function Generator(player) {
   };
 
   this.generatorPrice = function (name) {
-	if(!player.player) return;
-    var level = player.player.generators[name].level;
+	if(!player.data) return;
+    var level = player.data.generators[name].level;
     var price = generators[name].price * Math.pow(generators[name].priceIncrease, level);
-    return Math.ceil(price);
+    return price;
+  };
+  
+  this.maxBuy = function (name) {
+    
   };
   
   this.buyGenerators = function (name, number) {
     var price = this.generatorPrice(name);
     var i = 0;
     // we need a loop since we use the ceil operator
-    while (i < number && player.player.power >= price) {
-      player.player.power -= price;
-      player.player.generators[name].level++;
+    while (i < number && player.data.power >= price) {
+      player.data.power -= price;
+      player.data.generators[name].level++;
       price = this.generatorPrice(name);
       i++;
     }
