@@ -13,6 +13,10 @@ function Script(generator, upgrade) {
   this.script;
 
   this.eval = function(){
-	  eval(this.script);
+	  try{
+	    eval(this.script);
+	  }catch(error){
+	    return error;
+	  }
   };
 };
