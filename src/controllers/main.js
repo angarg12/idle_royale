@@ -37,6 +37,10 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   $scope.goal = 1e9;
   $scope.error_msg = "";
 
+  var player_script = "generator.buyGenerators('Tier 1',1);";
+  var enemy_script = "generator.buyGenerators('Tier 1',1);\
+  upgrade.buyUpgrade('Tier 1-1');";
+  
   player.setScope($scope);
   enemy.setScope($scope);
   util.setScope($scope);
@@ -82,14 +86,17 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   self.update = function () {
     self.processProduction();
 	$scope.error_msg = script.eval();
-	
+	scriptEnemy.eval();
 	$scope.turn++;
   };
 
   self.init = function () {
     $scope.current_tab = "Game";
     player.populatePlayer();
+	player.data.script = player_script;
     enemy.populatePlayer();
+	enemy.data.script = enemy_script;
+	scriptEnemy.script = enemy_script;
   };
 
   self.startup = function () {

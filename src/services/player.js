@@ -8,7 +8,7 @@ angular
 function Player() {  
   var $scope;
   this.data;
-
+  
   var startPlayer = {
 	power: 15,
 	generators: {
@@ -65,7 +65,7 @@ function Player() {
 		"Tier 10-3": {bought:false},
 		"Tier 10-4": {bought:false}
 	},
-	script: "generator.buyGenerators('Tier 1',1);"
+	script: ""
   };
   
   this.setScope = function (scope){
