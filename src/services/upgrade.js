@@ -228,13 +228,12 @@ function Upgrade(player, generator) {
   };
 	
   this.buyUpgrade = function (name) {
-    if(player.data.upgrades[name].bought) {
-      return;
-    }
     var price = upgrades[name].price;
-    if(player.data.power >= price) {
+    if(!player.data.upgrades[name].bought && player.data.power >= price) {
       player.data.power -= price;
       player.data.upgrades[name].bought = true;
+	  return true;
     }
+	return false;
   };
 }

@@ -18,7 +18,7 @@ angular
 'upgradeEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, script, enemy, generatorEnemy, upgradeEnemy, scriptEnemy) {
-  $scope.version = '0.2.1';
+  $scope.version = '0.2.2';
   $scope.Math = window.Math;
   
   $scope.util = util;
