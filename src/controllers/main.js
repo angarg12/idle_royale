@@ -45,42 +45,38 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   enemy.setScope($scope);
   util.setScope($scope);
   savegame.setScope($scope);
-  
-  $scope.generatorProduction = function (name) {
-	if(!player.data) return;
-    var baseProduction = generator.getGenerators()[name].power;
-    return $scope.upgradedProduction(baseProduction, name);
-  };
 
-  $scope.tierProduction = function (name) {
-	if(!player.data) return;
+  $scope.tierProduction = function (actor, generator, upgrade, name) {
+	if(!actor.data) return;
     var baseProduction = generator.getGenerators()[name].power *
-                         player.data.generators[name].level;
-    return $scope.upgradedProduction(baseProduction, name);
+                         actor.data.generators[name].level;
+    return $scope.upgradedProduction(actor, generator, upgrade, baseProduction, name);
   };
   
-  $scope.totalProduction = function () {
+  $scope.totalProduction = function (actor, generator, upgrade) {
     var total = 0;
     for(var tier in generator.getGenerators()) {
-      total += this.tierProduction(tier);
+      total += this.tierProduction(actor, generator, upgrade, tier);
     }
     return total;
   };
   
-  $scope.upgradedProduction = function (production, name) {
-	if(!player.data) return;
-	var generators = generator.getGenerators()
+  $scope.upgradedProduction = function (actor, generator, upgrade, production, name) {
+	if(!actor.data) return;
+	var generators = generator.getGenerators();
+	var upgrades = upgrade.getUpgrades();
     for(var upgrade in generators[name].upgrades) {
-        if(player.data.upgrades[generators[name].upgrades[upgrade]].bought) {
+        if(actor.data.upgrades[generators[name].upgrades[upgrade]].bought) {
           power = upgrades[generators[name].upgrades[upgrade]].power;
-          production = $scope.upgradeApply(production, power);
+          production = production * power;
         }
       }
       return production;
   };
   
   self.processProduction = function () {
-	player.data.power += $scope.totalProduction();
+	player.data.power += $scope.totalProduction(player, generator, upgrade);
+	enemy.data.power += $scope.totalProduction(enemy, generatorEnemy, upgradeEnemy);
   };  
   
   self.update = function () {
@@ -102,7 +98,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   self.startup = function () {
     self.init();
 	savegame.load();
-    $interval(self.update, 100);
+    $interval(self.update, 1);
     $interval(savegame.save, 10000);
   };
   

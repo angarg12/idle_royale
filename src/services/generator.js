@@ -13,7 +13,13 @@ function Generator(player) {
   var generators = {
 		'Tier 1':{
 			price:15,
-			power:1
+			power:1,
+			upgrades: [
+			  "Tier 1-1",
+			  "Tier 1-2",
+			  "Tier 1-3",
+			  "Tier 1-4"
+			]
 		},
 		'Tier 2':{
 			price:100,

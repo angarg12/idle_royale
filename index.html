@@ -82,7 +82,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction()))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, generator, upgrade)))" id="production_total"></span>/s</h3>
                 <div>
                   <div>
                     <hr>
@@ -100,7 +100,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(name)))"></span> /s
+                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, generator, upgrade, name)))"></span> /s
                             </div>
                           </td>
                           <td class="col-md-1">
@@ -142,7 +142,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction()))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/s</h3>
                 <div>
                   <div>
                     <hr>
@@ -160,7 +160,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(name)))"></span> /s
+                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, generatorEnemy, upgradeEnemy, name)))"></span> /s
                             </div>
                           </td>
                           <td class="col-md-1">
