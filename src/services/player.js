@@ -1,13 +1,16 @@
 angular
 .module('incremental')
 .service('player',
-[
-function() {  
+[Player])
+.service('enemy',
+[Player]);
+
+function Player() {  
   var $scope;
   this.player;
 
   var startPlayer = {
-	power: 0,
+	power: 15,
 	generators: {
 		'Tier 1':{level:0},
 		'Tier 2':{level:0},
@@ -72,4 +75,4 @@ function() {
   this.populatePlayer = function () {
     this.player = angular.copy(startPlayer);
   };
-}]);
+}

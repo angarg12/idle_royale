@@ -3,8 +3,15 @@ angular
 .service('upgrade',
 ['player',
 'generator',
-function(player, generator) {
-  var $scope;
+Upgrade
+])
+.service('upgradeEnemy',
+['enemy',
+'generator',
+Upgrade
+]);
+
+function Upgrade(player, generator) {
   var upgrades = {
     "Tier 1-1": {
       "price" : 100,
@@ -214,12 +221,7 @@ function(player, generator) {
   this.getKeys = function(){
 	return keys;
   };
-  
-  this.setScope = function (scope){
-    $scope = scope;
-	$scope.upgradedProduction = this.upgradedProduction;
-  };
-	
+
   	// FIXME send a copy
   this.getUpgrades = function(){
 	return upgrades;
@@ -235,16 +237,4 @@ function(player, generator) {
       player.data.upgrades[name].bought = true;
     }
   };
-
-  this.upgradedProduction = function (production, name) {
-	if(!player.player) return;
-	var generators = generator.getGenerators()
-    for(var upgrade in generators[name].upgrades) {
-        if(player.player.upgrades[generators[name].upgrades[upgrade]].bought) {
-          power = upgrades[generators[name].upgrades[upgrade]].power;
-          production = $scope.upgradeApply(production, power);
-        }
-      }
-      return production;
-  };
-}]);
+}

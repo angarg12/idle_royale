@@ -80,7 +80,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2>{{player.player.power}}</h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(generator.totalProduction()))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction()))" id="production_total"></span>/s</h3>
                 <div>
                   <div>
                     <hr>
@@ -98,7 +98,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(generator.tierProduction(name)))"></span> /s
+                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(name)))"></span> /s
                             </div>
                           </td>
                           <td class="col-md-1">

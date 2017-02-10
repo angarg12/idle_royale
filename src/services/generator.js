@@ -2,8 +2,12 @@ angular
 .module('incremental')
 .service('generator',
 ['player',
-function(player) {  
-  var $scope;
+Generator])
+.service('generatorEnemy',
+['enemy',
+Generator]);
+
+function Generator(player) {
   var generators = {
 		'Tier 1':{
 			price:15,
@@ -63,13 +67,9 @@ function(player) {
 	return keys;
   };
 	
-		// FIXME send a copy
+	// FIXME send a copy
   this.getGenerators = function(){
 	return generators;
-  };
-	
-  this.setScope = function (scope){
-    $scope = scope;
   };
 
   this.generatorPrice = function (name) {
@@ -90,25 +90,4 @@ function(player) {
       i++;
     }
   };
-  
-  this.generatorProduction = function (name) {
-	  if(!player.player) return;
-    var baseProduction = generators[name].power;
-    return $scope.upgradedProduction(baseProduction, name);
-  };
-
-  this.tierProduction = function (name) {
-	  if(!player.player) return;
-    var baseProduction = generators[name].power *
-                         player.player.generators[name].level;
-    return $scope.upgradedProduction(baseProduction, name);
-  };
-  
-  this.totalProduction = function () {
-    var total = 0;
-    for(var tier in generators) {
-      total += this.tierProduction(tier);
-    }
-    return total;
 };
-}]);
