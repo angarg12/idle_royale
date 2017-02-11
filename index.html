@@ -187,15 +187,21 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="sp in spell.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
+                        <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'info': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && player.data.spells[sp].cooldown > 0},{'danger': player.data.spells[sp].charges && player.data.spells[sp].charges <= 0}]">
 						  <td class="col-md-1">
 						    {{sp}}
 						  </td>
-						  <td class="col-md-1">
+						  <td class="col-md-1" ng-if="!player.data.spells[sp].active">
 						    {{spell.getSpells()[sp].duration}}
 						  </td>
-						  <td class="col-md-1">
-						    {{spell.getSpells()[sp].cooldown}}
+						  <td class="col-md-1" ng-if="player.data.spells[sp].active">
+						    {{player.data.spells[sp].duration}}
+						  </td>
+						  <td class="col-md-1" ng-if="!player.data.spells[sp].cooldown ||  player.data.spells[sp].cooldown <= 0">
+						    {{spell.getSpells()[sp].cooldown}} 
+						  </td>
+						  <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
+						    {{player.data.spells[sp].cooldown}}
 						  </td>
 						  <td class="col-md-1">
 						    {{spell.getSpells()[sp].charges}}

@@ -3,13 +3,15 @@ angular
 .service('script',
 ['generator',
 'upgrade',
+'spell',
 Script])
 .service('scriptEnemy',
 ['generatorEnemy',
 'upgradeEnemy',
+'spellEnemy',
 Script]);
 
-function Script(generator, upgrade) {
+function Script(generator, upgrade, spell) {
   this.script;
 
   this.eval = function(){

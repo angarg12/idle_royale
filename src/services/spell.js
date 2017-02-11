@@ -53,6 +53,10 @@ function Spell(player) {
 		  player.data.spells[name].charges--;
 		}
 	  }
+	  
+	  if(spells[name].effect){
+	    spells[name].effect();
+	  }
 	  return true;
     }
 	return false;

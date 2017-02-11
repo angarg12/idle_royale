@@ -78,6 +78,19 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
       return production;
   };
   
+  self.processSpells = function(actor) {
+    for(var spell in actor.data.spells){
+	  if(actor.data.spells[spell].active){
+	    actor.data.spells[spell].duration--;
+	  }else if(actor.data.spells[spell].cooldown > 0){
+		actor.data.spells[spell].cooldown--;
+	  }
+	  if(actor.data.spells[spell].duration <= 0){
+	    actor.data.spells[spell].active = false;
+	  }
+	}
+  };
+  
   self.processProduction = function () {
 	player.data.power += $scope.totalProduction(player, generator, upgrade);
 	enemy.data.power += $scope.totalProduction(enemy, generatorEnemy, upgradeEnemy);
@@ -85,6 +98,8 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   
   self.update = function () {
     self.processProduction();
+	self.processSpells(player);
+	self.processSpells(enemy);
 	$scope.error_msg = script.eval();
 	scriptEnemy.eval();
 	$scope.turn++;
