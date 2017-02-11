@@ -219,6 +219,7 @@ function Upgrade(actor, opponent) {
   var keys = Object.keys(upgrades);
 
   this.getKeys = function(){
+  if(!actor.data) return;
   if(actor.data.spells["Humility"].active 
     || opponent.data.spells["Humility"].active ){
 		return [];

@@ -20,8 +20,9 @@ function(player) {
 		player.data.script = save;
 	  }
     } catch (err) {
+	  alert(err)
       alert("Error loading savegame, reset forced.");
-      this.reset(false);
+      $scope.init();
     }
   };
 }]);

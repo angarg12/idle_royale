@@ -78,7 +78,7 @@
 				<h2>Goal</h2>				
 				<div class="progress-striped">
 					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{player.data.power/1e9*100}}%">
-						{{Math.max(Math.floor((player.data.power/1e9*100)*1000)/10,0)}}%
+						{{Math.max(Math.floor(player.data.power/1e9*100)/10,0)}}%
 					</div>
 				</div>
                 <h2>Power</h2>
@@ -226,7 +226,7 @@
 				<h2>Goal</h2>				
 				<div class="progress-striped">
 					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{enemy.data.power/1e9*100}}%">
-						{{Math.max(Math.floor((enemy.data.power/1e9*100)*1000)/10,0)}}%
+						{{Math.max(Math.floor(enemy.data.power/1e9*100)/10,0)}}%
 					</div>
 				</div>
                 <h2>Power</h2>
@@ -375,7 +375,77 @@
           <div class="tab-content ng-scope" id="tutorial">
             <div class="tab-pane row" ng-class="{active: current_tab == 'Tutorial'}">
               <div class="col-lg-12"> 
-                <h1>How to play</h1>			  
+                <h1>How to play</h1>
+                <p>Write Javascript code in the text box to script your play. Press load and the code will be executed on each turn. If your code produces an error, it will be displayed under the script box.</p>	
+                <p>Reach the power goal before your enemy to win a round.</p>	
+                <h1>Commands</h1>
+                <p>This section shows which commands are available to your script.</p>
+                <h2>Global</h2>
+				<p><strong>goal</strong>: power goal of the round.</p>
+				<p><strong>turn</strong>: current turn.</p>
+				<p><strong>cache</strong>: cache where you can store variables between turns.</p>
+                <h2>Actor</h2>
+				<p>Object that contains the player data. It has the following format.</p>
+				<pre><code>actor = {
+  power: 15e6,
+  generators: {
+    'Tier 1':{level:0}...
+  },
+  upgrades: {
+    "Tier 1-1": {bought:false}...
+  },
+  spells: {
+    'Surge':{
+      active: false
+    }...
+  }
+}
+</code></pre>	
+                <h2>Generator</h2>
+				<p>Generators produce power each turn.</p>
+				<p><strong>getKeys()</strong>: list of all generator names.</p>	
+				<p><strong>getGenerators()</strong>: generator object. It has the following format.</p>
+				<pre><code>generators = {
+  'Tier 1':{
+    price:15,
+    power:1,
+    upgrades: [
+      "Tier 1-1",
+      "Tier 1-2"...
+    ]
+  }...
+}
+</code></pre>
+				<p><strong>buyPrice(name, number)</strong>: price to buy <i>number</i> of generators <i>name</i>.</p>
+				<p><strong>maxBuy(name)</strong>: how many generators of <i>name</i> you can buy.</p>
+				<p><strong>buyGenerators(name, number)</strong>: buy <i>number</i> of generator <i>name</i>. Return true if it succeeds, false otherwise.</p>
+                <h2>Upgrade</h2>
+				<p>Upgrades power up generators.</p>
+				<p><strong>getKeys()</strong>: list of all upgrade names.</p>
+				<p><strong>getUpgrades()</strong>: upgrade object. It has the following format.</p>
+				<pre><code>upgrades = {
+    "Tier 1-1": {
+      "price" : 100,
+      "description" : "Tier 1 production x2",
+      "power" : 2
+    }...
+}
+</code></pre>
+				<p><strong>buyUpgrade(name)</strong>: buy the upgrade <i>name</i>. Return true if it succeeds, false otherwise.</p>
+                <h2>Spell</h2>				
+				<p>Spell create unique effects. Spells may have: duration, how many turns they are active; cooldown: how many turns you have to wait between casts; chargers: how many times you can cast it per round.</p>
+				<p><strong>getKeys()</strong>: list of all spell names.</p>	
+				<p><strong>getSpells()</strong>: spell object. It has the following format.</p>
+				<pre><code>spells = {	  
+  'Surge':{
+    description: 'Increase production by 10%',
+    price: 1e4,
+    duration: 60,
+    cooldown: 150
+  }...
+}
+</code></pre>
+				<p><strong>activateSpell(name)</strong>: activate the spell <i>name</i>. Return true if it succeeds, false otherwise.</p>
               </div>
             </div>
           </div>

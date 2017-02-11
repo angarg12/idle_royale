@@ -59,6 +59,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   };
   
   $scope.totalProduction = function (actor, opponent, generator, upgrade) {
+	if(!actor.data) return;
     var total = 0;
     for(var tier in generator.getGenerators()) {
       total += this.tierProduction(actor, opponent, generator, upgrade, tier);
@@ -73,8 +74,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   };
   
   $scope.upgradedProduction = function (actor, opponent, generator, upgrade, production, name) {
-	if(!actor.data) return;
-	  if(actor.data.spells["Humility"].active 
+	if(actor.data.spells["Humility"].active 
     || opponent.data.spells["Humility"].active ){
 		return production;
 	}
@@ -116,7 +116,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
 	$scope.turn++;
   };
 
-  self.init = function () {
+  $scope.init = function () {
     $scope.current_tab = "Game";
     $scope.turn = 0;
     $scope.goal = 1e9;
@@ -129,6 +129,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   };
 
   self.startup = function () {
+	$scope.init();
 	savegame.load();
     $interval(self.update, 1);
     $interval(savegame.save, 10000);
