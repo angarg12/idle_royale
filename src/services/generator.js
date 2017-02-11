@@ -50,14 +50,6 @@ function Generator(actor, opponent) {
 		'Tier 8':{
 			price:330000000,
 			power:440000
-		},
-		'Tier 9':{
-			price:5100000000,
-			power:2600000
-		},
-		'Tier 10':{
-			price:75000000000,
-			power:16000000
 		}
 	};
 
@@ -67,11 +59,16 @@ function Generator(actor, opponent) {
 	return keys;
   };
 	
-	// FIXME send a copy
+  var copy = angular.copy(generators);
+  
   this.getGenerators = function(){
-	return generators;
+	return copy;
   };
 
+  this.clear = function(){
+	copy = angular.copy(generators);
+  };
+  
   this.generatorPrice = function (name) {
 	if(!actor.data) return;
     var level = actor.data.generators[name].level;

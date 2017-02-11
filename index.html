@@ -83,7 +83,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, enemy, generator, upgrade)))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, enemy, generator, upgrade)))" id="production_total"></span>/t</h3>
                 <div>
                   <div>
                     <hr>
@@ -117,7 +117,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, enemy, generator, upgrade, name)))"></span> /s
+                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, enemy, generator, upgrade, name)))"></span> /t
                             </div>
                           </td>
                           <td class="col-md-1">
@@ -231,7 +231,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, player, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, player, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/t</h3>
                 <div>
                   <div>
                     <hr>
@@ -265,7 +265,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, player, generatorEnemy, upgradeEnemy, name)))"></span> /s
+                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, player, generatorEnemy, upgradeEnemy, name)))"></span> /t
                             </div>
                           </td>
                           <td class="col-md-1">
@@ -383,6 +383,7 @@
                 <h2>Global</h2>
 				<p><strong>goal</strong>: power goal of the round.</p>
 				<p><strong>turn</strong>: current turn.</p>
+				<p><strong>production</strong>: your total production per turn.</p>
 				<p><strong>cache</strong>: cache where you can store variables between turns.</p>
                 <h2>Actor</h2>
 				<p>Object that contains the player data. It has the following format.</p>

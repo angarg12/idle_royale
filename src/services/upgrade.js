@@ -108,11 +108,6 @@ function Upgrade(actor, opponent) {
       "description" : "Tier 5  production x2",
       "power" : 2
     },
-    "Tier 5-4": {
-      "price" : 6500000000,
-      "description" : "Tier 5  production x2",
-      "power" : 2
-    },
     "Tier 6-1": {
       "price" : 14000000,
       "description" : "Tier 6  production x2",
@@ -128,90 +123,9 @@ function Upgrade(actor, opponent) {
       "description" : "Tier 6  production x2",
       "power" : 2
     },
-    "Tier 6-4": {
-      "price" : 70000000000,
-      "description" : "Tier 6  production x2",
-      "power" : 2
-    },
     "Tier 7-1": {
       "price" : 200000000,
       "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 7-2": {
-      "price" : 1000000000,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 7-3": {
-      "price" : 10000000000,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 7-4": {
-      "price" : 1000000000000,
-      "description" : "Tier 7  production x2",
-      "power" : 2
-    },
-    "Tier 8-1": {
-      "price" : 3300000000,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-2": {
-      "price" : 16500000000,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-3": {
-      "price" : 165000000000,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 8-4": {
-      "price" : 16500000000000,
-      "description" : "Tier 8  production x2",
-      "power" : 2
-    },
-    "Tier 9-1": {
-      "price" : 51000000000,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 9-2": {
-      "price" : 255000000000,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 9-3": {
-      "price" : 2550000000000,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 9-4": {
-      "price" : 2.55e+14,
-      "description" : "Tier 9  production x2",
-      "power" : 2
-    },
-    "Tier 10-1": {
-      "price" : 750000000000,
-      "description" : "Tier 10  production x2",
-       
-      "power" : 2
-    },
-    "Tier 10-2": {
-      "price" : 3750000000000,
-      "description" : "Tier 10  production x2",
-      "power" : 2
-    },
-    "Tier 10-3": {
-      "price" : 37500000000000,
-      "description" : "Tier 10  production x2",
-      "power" : 2
-    },
-    "Tier 10-4": {
-      "price" : 3.75e+15,
-      "description" : "Tier 10  production x2",
       "power" : 2
     }
   };
@@ -226,13 +140,18 @@ function Upgrade(actor, opponent) {
 	}
 	return keys;
   };
-
+  
+  var copy = angular.copy(upgrades);
   	// FIXME send a copy
   this.getUpgrades = function(){  if(actor.data.spells["Humility"].active 
     || opponent.data.spells["Humility"].active ){
 		return {};
 	}
-	return upgrades;
+	return copy;
+  };
+
+  this.clear = function(){
+	copy = angular.copy(upgrades);
   };
 	
   this.buyUpgrade = function (name) {

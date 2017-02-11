@@ -65,9 +65,14 @@ function Spell(actor, opponent) {
 	return keys;
   };
 
-  	// FIXME send a copy
+  var copy = angular.copy(spells);
+
   this.getSpells = function(){
-	return spells;
+	return copy;
+  };
+
+  this.clear = function(){
+	copy = angular.copy(spells);
   };
 	
   this.activateSpell = function (name) {

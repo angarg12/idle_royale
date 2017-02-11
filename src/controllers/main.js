@@ -42,9 +42,18 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   $scope.error_msg = "";
 
   var player_script = "generator.buyGenerators('Tier 1',1);";
-  var enemy_script = "generator.buyGenerators('Tier 1',1);\
-  upgrade.buyUpgrade('Tier 1-1');\
-  spell.activateSpell('Drain');";
+  var enemy_script = "if(actor.power < 0.8*goal){\
+var gens = generator.getKeys();\
+for(var i = gens.length; i > 0; i--){\
+  var number = generator.maxBuy(gens[i-1]);\
+  generator.buyGenerators(gens[i-1],number);\
+}\
+var ups = upgrade.getKeys();\
+for(var i = ups .length; i > 0; i--){\
+  upgrade.buyUpgrade(ups[i-1]);\
+}\
+spell.activateSpell('Drain');\
+}";
   
   player.setScope($scope);
   enemy.setScope($scope);
@@ -111,8 +120,11 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
     self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
 	self.processSpells(player);
 	self.processSpells(enemy);
-	$scope.error_msg = script.eval(angular.copy(player.data), $scope.goal, $scope.turn);
-	scriptEnemy.eval(angular.copy(enemy.data), $scope.goal, $scope.turn);
+	$scope.error_msg = script.eval(angular.copy(player.data), $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
+	scriptEnemy.eval(angular.copy(enemy.data), $scope.goal, $scope.turn, $scope.totalProduction(enemy, player, generator, upgrade));
+	generator.clear();
+	upgrade.clear();
+	spell.clear();
 	$scope.turn++;
   };
 

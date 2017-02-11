@@ -10,7 +10,7 @@ function Player() {
   this.data;
   
   var startPlayer = {
-	power: 15e6,
+	power: 15,
 	generators: {
 		'Tier 1':{level:0},
 		'Tier 2':{level:0},
