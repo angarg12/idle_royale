@@ -12,13 +12,15 @@ angular
 'player',
 'generator',
 'upgrade',
+'spell',
 'script',
 'enemy',
 'generatorEnemy',
 'upgradeEnemy',
+'spellEnemy',
 'scriptEnemy',
-function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, script, enemy, generatorEnemy, upgradeEnemy, scriptEnemy) {
-  $scope.version = '0.2.2';
+function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, spell, script, enemy, generatorEnemy, upgradeEnemy, spellEnemy, scriptEnemy) {
+  $scope.version = '0.5.1';
   $scope.Math = window.Math;
   
   $scope.util = util;
@@ -26,10 +28,12 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   $scope.player = player;
   $scope.generator = generator;
   $scope.upgrade = upgrade;
+  $scope.spell = spell;
   $scope.script = script;
   $scope.enemy = enemy;
   $scope.generatorEnemy = generatorEnemy;
   $scope.upgradeEnemy = upgradeEnemy;
+  $scope.spellEnemy = spellEnemy;
   var self = this;
   
   $scope.current_tab = "Game";

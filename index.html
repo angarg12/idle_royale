@@ -12,6 +12,7 @@
     <script type="text/javascript" src="src/services/savegame.js"></script>
     <script type="text/javascript" src="src/services/upgrade.js"></script>
     <script type="text/javascript" src="src/services/util.js"></script>
+    <script type="text/javascript" src="src/services/spell.js"></script>
     <script type="text/javascript" src="src/services/script.js"></script>
     <script type="text/javascript" src="src/controllers/main.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/base-bootstrap.min.css" id="theme_css">
@@ -88,6 +89,22 @@
                     <hr>
                     <h4>Generators</h4>
                     <table class="table">
+                      <thead>
+					    <tr class="active">
+						  <th class="col-md-1">
+						    Name
+						  </th>
+						  <th class="col-md-1">
+						    Level
+						  </th>
+						  <th class="col-md-1">
+						    Production
+						  </th>
+						  <th class="col-md-1">
+						    Price
+						  </th>
+                        </tr>
+                      </thead>
                       <tbody>
                         <tr ng-repeat="name in generator.getKeys()">
                           <td class="col-md-1">
@@ -100,7 +117,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, generator, upgrade, name)))"></span> /s
+                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, generator, upgrade, name)))"></span> /s
                             </div>
                           </td>
                           <td class="col-md-1">
@@ -115,6 +132,19 @@
                     <hr>
                     <h4>Upgrades</h4>
                     <table class="table">
+                      <thead>
+					    <tr class="active">
+						  <th class="col-md-1">
+						    Name
+						  </th>
+						  <th class="col-md-1">
+						    Description
+						  </th>
+						  <th class="col-md-1">
+						    Price
+						  </th>
+                        </tr>
+                      </thead>
                       <tbody>
                         <tr ng-repeat="up in upgrade.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
 						  <td class="col-md-1">
@@ -125,6 +155,56 @@
 						  </td>
 						  <td class="col-md-1">
 						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgrade.getUpgrades()[up].price))"></div>
+						  </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+				  <div>
+                    <hr>
+                    <h4>Spells</h4>
+                    <table class="table">
+                      <thead>
+					    <tr class="active">
+						  <th class="col-md-1">
+						    Name
+						  </th>
+						  <th class="col-md-1">
+						    Duration
+						  </th>
+						  <th class="col-md-1">
+						    Cooldown
+						  </th>
+						  <th class="col-md-1">
+						    Charges
+						  </th>
+						  <th class="col-md-1">
+						    Price
+						  </th>
+						  <th class="col-md-1">
+						    Description
+						  </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="sp in spell.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
+						  <td class="col-md-1">
+						    {{sp}}
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].duration}}
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].cooldown}}
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].charges}}
+						  </td>
+						  <td class="col-md-1">
+						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].description}}
 						  </td>
                         </tr>
                       </tbody>

@@ -65,6 +65,11 @@ function Player() {
 		"Tier 10-3": {bought:false},
 		"Tier 10-4": {bought:false}
 	},
+	spells: {	  
+	  'Surge':{
+		active: false
+	  }
+	},
 	script: ""
   };
   

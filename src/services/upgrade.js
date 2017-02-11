@@ -2,16 +2,14 @@ angular
 .module('incremental')
 .service('upgrade',
 ['player',
-'generator',
 Upgrade
 ])
 .service('upgradeEnemy',
 ['enemy',
-'generator',
 Upgrade
 ]);
 
-function Upgrade(player, generator) {
+function Upgrade(player) {
   var upgrades = {
     "Tier 1-1": {
       "price" : 100,
