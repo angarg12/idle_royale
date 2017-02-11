@@ -43,7 +43,8 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
 
   var player_script = "generator.buyGenerators('Tier 1',1);";
   var enemy_script = "generator.buyGenerators('Tier 1',1);\
-  upgrade.buyUpgrade('Tier 1-1');";
+  upgrade.buyUpgrade('Tier 1-1');\
+  spell.activateSpell('Drain');";
   
   player.setScope($scope);
   enemy.setScope($scope);
@@ -57,11 +58,17 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
     return $scope.upgradedProduction(actor, generator, upgrade, baseProduction, name);
   };
   
-  $scope.totalProduction = function (actor, generator, upgrade) {
+  $scope.totalProduction = function (actor, opponent, generator, upgrade) {
     var total = 0;
     for(var tier in generator.getGenerators()) {
       total += this.tierProduction(actor, generator, upgrade, tier);
     }
+	if(actor.data.spells["Surge"].active){
+	  total *= 1.1;
+	}
+	if(opponent.data.spells["Drain"].active){
+	  total *= 0.9;
+	}
     return total;
   };
   
@@ -91,13 +98,13 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
 	}
   };
   
-  self.processProduction = function () {
-	player.data.power += $scope.totalProduction(player, generator, upgrade);
-	enemy.data.power += $scope.totalProduction(enemy, generatorEnemy, upgradeEnemy);
+  self.processProduction = function (actor, opponent, generator, upgrade) {
+	actor.data.power += $scope.totalProduction(actor, opponent, generator, upgrade);
   };  
   
   self.update = function () {
-    self.processProduction();
+    self.processProduction(player, enemy, generator, upgrade);
+    self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
 	self.processSpells(player);
 	self.processSpells(enemy);
 	$scope.error_msg = script.eval();

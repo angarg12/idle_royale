@@ -83,7 +83,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, generator, upgrade)))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, enemy, generator, upgrade)))" id="production_total"></span>/s</h3>
                 <div>
                   <div>
                     <hr>
@@ -231,7 +231,7 @@
 				</div>
                 <h2>Power</h2>
                 <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/s</h3>
+                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, player, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/s</h3>
                 <div>
                   <div>
                     <hr>
@@ -336,33 +336,33 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
+                        <tr ng-repeat="sp in spellEnemy.getKeys()" ng-class="[{'success': enemy.data.spells[sp].active},{'warning': !enemy.data.spells[sp].active && (enemy.data.spells[sp].charges == undefined || enemy.data.spells[sp].charges > 0) && enemy.data.spells[sp].cooldown > 0},{'danger': !enemy.data.spells[sp].active && enemy.data.spells[sp].charges <= 0}]">
 						  <td class="col-md-1">
 						    {{sp}}
 						  </td>
-						  <td class="col-md-1" ng-if="!player.data.spells[sp].active">
-						    {{spell.getSpells()[sp].duration}}
+						  <td class="col-md-1" ng-if="!enemy.data.spells[sp].active">
+						    {{spellEnemy.getSpells()[sp].duration}}
 						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].active">
-						    {{player.data.spells[sp].duration}}
+						  <td class="col-md-1" ng-if="enemy.data.spells[sp].active">
+						    {{enemy.data.spells[sp].duration}}
 						  </td>
-						  <td class="col-md-1" ng-if="!player.data.spells[sp].cooldown ||  player.data.spells[sp].cooldown <= 0">
-						    {{spell.getSpells()[sp].cooldown}} 
+						  <td class="col-md-1" ng-if="!enemy.data.spells[sp].cooldown ||  enemy.data.spells[sp].cooldown <= 0">
+						    {{spellEnemy.getSpells()[sp].cooldown}} 
 						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
-						    {{player.data.spells[sp].cooldown}}
+						  <td class="col-md-1" ng-if="enemy.data.spells[sp].cooldown > 0">
+						    {{enemy.data.spells[sp].cooldown}}
 						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].charges === undefined">
-						    {{spell.getSpells()[sp].charges}}
+						  <td class="col-md-1" ng-if="enemy.data.spells[sp].charges === undefined">
+						    {{spellEnemy.getSpells()[sp].charges}}
 						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].charges >= 0">
-						    {{player.data.spells[sp].charges}}
-						  </td>
-						  <td class="col-md-1">
-						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>
+						  <td class="col-md-1" ng-if="enemy.data.spells[sp].charges >= 0">
+						    {{enemy.data.spells[sp].charges}}
 						  </td>
 						  <td class="col-md-1">
-						    {{spell.getSpells()[sp].description}}
+						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spellEnemy.getSpells()[sp].price))"></div>
+						  </td>
+						  <td class="col-md-1">
+						    {{spellEnemy.getSpells()[sp].description}}
 						  </td>
                         </tr>
                       </tbody>
