@@ -2,12 +2,14 @@ angular
 .module('incremental')
 .service('generator',
 ['player',
+'enemy',
 Generator])
 .service('generatorEnemy',
 ['enemy',
+'player',
 Generator]);
 
-function Generator(player) {
+function Generator(actor, opponent) {
   var priceIncrease = 1.05;
 	
   var generators = {
@@ -71,20 +73,20 @@ function Generator(player) {
   };
 
   this.generatorPrice = function (name) {
-	if(!player.data) return;
-    var level = player.data.generators[name].level;
+	if(!actor.data) return;
+    var level = actor.data.generators[name].level;
     var price = generators[name].price * Math.pow(priceIncrease, level);
     return price;
   };
   
   this.maxBuy = function (name) {
-	var level = player.data.generators[name].level;
+	var level = actor.data.generators[name].level;
 	  
-    return Math.floor(Math.log(((player.data.power*(priceIncrease-1))/(generators[name].price * Math.pow(priceIncrease, level)))+1)/Math.log(priceIncrease));
+    return Math.floor(Math.log(((actor.data.power*(priceIncrease-1))/(generators[name].price * Math.pow(priceIncrease, level)))+1)/Math.log(priceIncrease));
   };
   
   this.buyPrice = function (name, number) {
-	var level = player.data.generators[name].level;
+	var level = actor.data.generators[name].level;
 	
 	return generators[name].price*(Math.pow(priceIncrease, level)*(Math.pow(priceIncrease, number)-1))/(priceIncrease-1)
   };
@@ -94,12 +96,12 @@ function Generator(player) {
     var i = 0;
 	
 	var price = this.buyPrice(name, number);
-	if(price > player.data.power){
+	if(price > actor.data.power){
 		return false;
 	}
 	
-    player.data.power -= price;
-    player.data.generators[name].level+= number;
+    actor.data.power -= price;
+    actor.data.generators[name].level+= number;
 	
 	return true;
   };

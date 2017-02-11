@@ -10,7 +10,7 @@ function Player() {
   this.data;
   
   var startPlayer = {
-	power: 15,
+	power: 15e6,
 	generators: {
 		'Tier 1':{level:0},
 		'Tier 2':{level:0},
@@ -65,8 +65,20 @@ function Player() {
 		"Tier 10-3": {bought:false},
 		"Tier 10-4": {bought:false}
 	},
-	spells: {	  
+	spells: {
 	  'Surge':{
+		active: false
+	  },
+	  'Drain':{
+		active: false
+	  }, 
+	  'Armageddon':{
+		active: false
+	  }, 
+	  'Humility':{
+		active: false
+	  }, 
+	  'Weakness':{
 		active: false
 	  }
 	},

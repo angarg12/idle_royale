@@ -117,7 +117,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, generator, upgrade, name)))"></span> /s
+                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, enemy, generator, upgrade, name)))"></span> /s
                             </div>
                           </td>
                           <td class="col-md-1">
@@ -265,7 +265,7 @@
                           </td>
                           <td class="col-md-1">
                             <div class="pull-left">
-                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, generatorEnemy, upgradeEnemy, name)))"></span> /s
+                              Total <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, player, generatorEnemy, upgradeEnemy, name)))"></span> /s
                             </div>
                           </td>
                           <td class="col-md-1">
@@ -374,7 +374,8 @@
 		  </div>
           <div class="tab-content ng-scope" id="tutorial">
             <div class="tab-pane row" ng-class="{active: current_tab == 'Tutorial'}">
-              <div class="col-lg-12">                
+              <div class="col-lg-12"> 
+                <h1>How to play</h1>			  
               </div>
             </div>
           </div>

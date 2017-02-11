@@ -2,14 +2,16 @@ angular
 .module('incremental')
 .service('upgrade',
 ['player',
+'enemy',
 Upgrade
 ])
 .service('upgradeEnemy',
 ['enemy',
+'player',
 Upgrade
 ]);
 
-function Upgrade(player) {
+function Upgrade(actor, opponent) {
   var upgrades = {
     "Tier 1-1": {
       "price" : 100,
@@ -217,19 +219,30 @@ function Upgrade(player) {
   var keys = Object.keys(upgrades);
 
   this.getKeys = function(){
+  if(actor.data.spells["Humility"].active 
+    || opponent.data.spells["Humility"].active ){
+		return [];
+	}
 	return keys;
   };
 
   	// FIXME send a copy
-  this.getUpgrades = function(){
+  this.getUpgrades = function(){  if(actor.data.spells["Humility"].active 
+    || opponent.data.spells["Humility"].active ){
+		return {};
+	}
 	return upgrades;
   };
 	
   this.buyUpgrade = function (name) {
+	if(actor.data.spells["Humility"].active 
+    || opponent.data.spells["Humility"].active ){
+		return false;
+	}
     var price = upgrades[name].price;
-    if(!player.data.upgrades[name].bought && player.data.power >= price) {
-      player.data.power -= price;
-      player.data.upgrades[name].bought = true;
+    if(!actor.data.upgrades[name].bought && actor.data.power >= price) {
+      actor.data.power -= price;
+      actor.data.upgrades[name].bought = true;
 	  return true;
     }
 	return false;

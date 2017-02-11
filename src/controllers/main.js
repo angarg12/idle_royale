@@ -20,7 +20,7 @@ angular
 'spellEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, spell, script, enemy, generatorEnemy, upgradeEnemy, spellEnemy, scriptEnemy) {
-  $scope.version = '0.5.1';
+  $scope.version = '0.6.1';
   $scope.Math = window.Math;
   
   $scope.util = util;
@@ -51,17 +51,17 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   util.setScope($scope);
   savegame.setScope($scope);
 
-  $scope.tierProduction = function (actor, generator, upgrade, name) {
+  $scope.tierProduction = function (actor, opponent, generator, upgrade, name) {
 	if(!actor.data) return;
     var baseProduction = generator.getGenerators()[name].power *
                          actor.data.generators[name].level;
-    return $scope.upgradedProduction(actor, generator, upgrade, baseProduction, name);
+    return $scope.upgradedProduction(actor, opponent, generator, upgrade, baseProduction, name);
   };
   
   $scope.totalProduction = function (actor, opponent, generator, upgrade) {
     var total = 0;
     for(var tier in generator.getGenerators()) {
-      total += this.tierProduction(actor, generator, upgrade, tier);
+      total += this.tierProduction(actor, opponent, generator, upgrade, tier);
     }
 	if(actor.data.spells["Surge"].active){
 	  total *= 1.1;
@@ -72,8 +72,12 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
     return total;
   };
   
-  $scope.upgradedProduction = function (actor, generator, upgrade, production, name) {
+  $scope.upgradedProduction = function (actor, opponent, generator, upgrade, production, name) {
 	if(!actor.data) return;
+	  if(actor.data.spells["Humility"].active 
+    || opponent.data.spells["Humility"].active ){
+		return production;
+	}
 	var generators = generator.getGenerators();
 	var upgrades = upgrade.getUpgrades();
     for(var upgrade in generators[name].upgrades) {
@@ -107,13 +111,16 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
     self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
 	self.processSpells(player);
 	self.processSpells(enemy);
-	$scope.error_msg = script.eval();
-	scriptEnemy.eval();
+	$scope.error_msg = script.eval(angular.copy(player.data), $scope.goal, $scope.turn);
+	scriptEnemy.eval(angular.copy(enemy.data), $scope.goal, $scope.turn);
 	$scope.turn++;
   };
 
   self.init = function () {
     $scope.current_tab = "Game";
+    $scope.turn = 0;
+    $scope.goal = 1e9;
+    $scope.error_msg = "";
     player.populatePlayer();
 	player.data.script = player_script;
     enemy.populatePlayer();
@@ -122,7 +129,6 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   };
 
   self.startup = function () {
-    self.init();
 	savegame.load();
     $interval(self.update, 1);
     $interval(savegame.save, 10000);
