@@ -63,7 +63,7 @@
             <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
               <div class="col-lg-6">
 			  <textarea rows="10" ng-model="player.data.script"></textarea>
-			  <button ng-click="script.script = player.data.script">Load</button>
+			  <button ng-click="script.clearCache(); script.script = player.data.script;">Load</button>
               </div>
 			  <div class="col-lg-6 pull-left">
 			  <textarea rows="10" disabled ng-model="script.script"></textarea> 
@@ -187,7 +187,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'info': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && player.data.spells[sp].cooldown > 0},{'danger': player.data.spells[sp].charges && player.data.spells[sp].charges <= 0}]">
+                        <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
 						  <td class="col-md-1">
 						    {{sp}}
 						  </td>
@@ -203,8 +203,11 @@
 						  <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
 						    {{player.data.spells[sp].cooldown}}
 						  </td>
-						  <td class="col-md-1">
+						  <td class="col-md-1" ng-if="player.data.spells[sp].charges === undefined">
 						    {{spell.getSpells()[sp].charges}}
+						  </td>
+						  <td class="col-md-1" ng-if="player.data.spells[sp].charges >= 0">
+						    {{player.data.spells[sp].charges}}
 						  </td>
 						  <td class="col-md-1">
 						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>
@@ -333,18 +336,27 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="sp in spell.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
+                        <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
 						  <td class="col-md-1">
 						    {{sp}}
 						  </td>
-						  <td class="col-md-1">
+						  <td class="col-md-1" ng-if="!player.data.spells[sp].active">
 						    {{spell.getSpells()[sp].duration}}
 						  </td>
-						  <td class="col-md-1">
-						    {{spell.getSpells()[sp].cooldown}}
+						  <td class="col-md-1" ng-if="player.data.spells[sp].active">
+						    {{player.data.spells[sp].duration}}
 						  </td>
-						  <td class="col-md-1">
+						  <td class="col-md-1" ng-if="!player.data.spells[sp].cooldown ||  player.data.spells[sp].cooldown <= 0">
+						    {{spell.getSpells()[sp].cooldown}} 
+						  </td>
+						  <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
+						    {{player.data.spells[sp].cooldown}}
+						  </td>
+						  <td class="col-md-1" ng-if="player.data.spells[sp].charges === undefined">
 						    {{spell.getSpells()[sp].charges}}
+						  </td>
+						  <td class="col-md-1" ng-if="player.data.spells[sp].charges >= 0">
+						    {{player.data.spells[sp].charges}}
 						  </td>
 						  <td class="col-md-1">
 						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>

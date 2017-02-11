@@ -15,7 +15,8 @@ function Spell(player) {
 		description: 'Increase production by 5%',
 		price:100,
 		duration: 60,
-		cooldown: 300
+		cooldown: 300,
+		charges: 3
 	},
   };
   
@@ -33,7 +34,7 @@ function Spell(player) {
   this.activateSpell = function (name) {
     if(player.data.spells[name].active 
 	   || player.data.spells[name].cooldown > 0
-	   || (player.data.spells[name].charges && player.data.spells[name].charges <= 0)){
+	   || (player.data.spells[name].charges <= 0)){
 	  return false;
     }
     var price = spells[name].price;
@@ -48,7 +49,7 @@ function Spell(player) {
 	  }
 	  if(spells[name].charges){
 		if(!player.data.spells[name].charges){
-          player.data.spells[name].charges = spells[name].charges;
+          player.data.spells[name].charges = spells[name].charges-1;
 		}else{
 		  player.data.spells[name].charges--;
 		}

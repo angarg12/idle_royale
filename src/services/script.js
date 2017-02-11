@@ -13,7 +13,12 @@ Script]);
 
 function Script(generator, upgrade, spell) {
   this.script;
+  var cache = {};
 
+  this.clearCache = function(){
+	cache = {};
+  };
+  
   this.eval = function(){
 	  try{
 	    eval(this.script);
