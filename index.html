@@ -228,6 +228,22 @@
                     <hr>
                     <h4>Generators</h4>
                     <table class="table">
+                      <thead>
+					    <tr class="active">
+						  <th class="col-md-1">
+						    Name
+						  </th>
+						  <th class="col-md-1">
+						    Level
+						  </th>
+						  <th class="col-md-1">
+						    Production
+						  </th>
+						  <th class="col-md-1">
+						    Price
+						  </th>
+                        </tr>
+                      </thead>
                       <tbody>
                         <tr ng-repeat="name in generatorEnemy.getKeys()">
                           <td class="col-md-1">
@@ -255,6 +271,19 @@
                     <hr>
                     <h4>Upgrades</h4>
                     <table class="table">
+                      <thead>
+					    <tr class="active">
+						  <th class="col-md-1">
+						    Name
+						  </th>
+						  <th class="col-md-1">
+						    Description
+						  </th>
+						  <th class="col-md-1">
+						    Price
+						  </th>
+                        </tr>
+                      </thead>
                       <tbody>
                         <tr ng-repeat="up in upgradeEnemy.getKeys()" ng-class="{'bg-success': enemy.data.upgrades[up].bought == true}">
 						  <td class="col-md-1">
@@ -265,6 +294,57 @@
 						  </td>
 						  <td class="col-md-1">
 						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgradeEnemy.getUpgrades()[up].price))"></div>
+						  </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+				  
+				  <div>
+                    <hr>
+                    <h4>Spells</h4>
+                    <table class="table">
+                      <thead>
+					    <tr class="active">
+						  <th class="col-md-1">
+						    Name
+						  </th>
+						  <th class="col-md-1">
+						    Duration
+						  </th>
+						  <th class="col-md-1">
+						    Cooldown
+						  </th>
+						  <th class="col-md-1">
+						    Charges
+						  </th>
+						  <th class="col-md-1">
+						    Price
+						  </th>
+						  <th class="col-md-1">
+						    Description
+						  </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="sp in spell.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
+						  <td class="col-md-1">
+						    {{sp}}
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].duration}}
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].cooldown}}
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].charges}}
+						  </td>
+						  <td class="col-md-1">
+						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>
+						  </td>
+						  <td class="col-md-1">
+						    {{spell.getSpells()[sp].description}}
 						  </td>
                         </tr>
                       </tbody>
