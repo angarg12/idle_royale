@@ -4,6 +4,7 @@ Competitive idle experiment
 # License
 
 Idle Royale, a competitive idle experiment.
+
 Copyright (C) 2017 Andrés Garcia Garcia (angarg12)
 
 This project is free software: you can redistribute it and/or modify
