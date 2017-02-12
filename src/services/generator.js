@@ -89,6 +89,10 @@ function Generator(actor, opponent) {
   };
   
   this.buyGenerators = function (name, number) {
+	if(!Number.isInteger(number)){
+	  return;
+	}
+	
     var price = this.generatorPrice(name);
     var i = 0;
 	
