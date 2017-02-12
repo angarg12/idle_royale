@@ -408,8 +408,8 @@
 </code></pre>	
                 <h2>Generator</h2>
 				<p>Generators produce power each turn.</p>
-				<p><strong>getKeys()</strong>: list of all generator names.</p>	
-				<p><strong>getGenerators()</strong>: generator object. It has the following format.</p>
+				<p><strong>generator.getKeys()</strong>: list of all generator names.</p>	
+				<p><strong>generator.getGenerators()</strong>: generator object. It has the following format.</p>
 				<pre><code>generators = {
   'Tier 1':{
     price:15,
@@ -421,13 +421,13 @@
   }...
 }
 </code></pre>
-				<p><strong>buyPrice(name, number)</strong>: price to buy <i>number</i> of generators <i>name</i>.</p>
-				<p><strong>maxBuy(name)</strong>: how many generators of <i>name</i> you can buy.</p>
-				<p><strong>buyGenerators(name, number)</strong>: buy <i>number</i> of generator <i>name</i>. Return true if it succeeds, false otherwise.</p>
+				<p><strong>generator.buyPrice(name, number)</strong>: price to buy <i>number</i> of generators <i>name</i>.</p>
+				<p><strong>generator.maxBuy(name)</strong>: how many generators of <i>name</i> you can buy.</p>
+				<p><strong>generator.buyGenerators(name, number)</strong>: buy <i>number</i> of generator <i>name</i>. Return true if it succeeds, false otherwise.</p>
                 <h2>Upgrade</h2>
 				<p>Upgrades power up generators.</p>
-				<p><strong>getKeys()</strong>: list of all upgrade names.</p>
-				<p><strong>getUpgrades()</strong>: upgrade object. It has the following format.</p>
+				<p><strong>upgrade.getKeys()</strong>: list of all upgrade names.</p>
+				<p><strong>upgrade.getUpgrades()</strong>: upgrade object. It has the following format.</p>
 				<pre><code>upgrades = {
     "Tier 1-1": {
       "price" : 100,
@@ -436,11 +436,11 @@
     }...
 }
 </code></pre>
-				<p><strong>buyUpgrade(name)</strong>: buy the upgrade <i>name</i>. Return true if it succeeds, false otherwise.</p>
+				<p><strong>upgrade.buyUpgrade(name)</strong>: buy the upgrade <i>name</i>. Return true if it succeeds, false otherwise.</p>
                 <h2>Spell</h2>				
 				<p>Spell create unique effects. Spells may have: duration, how many turns they are active; cooldown: how many turns you have to wait between casts; chargers: how many times you can cast it per round.</p>
-				<p><strong>getKeys()</strong>: list of all spell names.</p>	
-				<p><strong>getSpells()</strong>: spell object. It has the following format.</p>
+				<p><strong>spell.getKeys()</strong>: list of all spell names.</p>	
+				<p><strong>spell.getSpells()</strong>: spell object. It has the following format.</p>
 				<pre><code>spells = {	  
   'Surge':{
     description: 'Increase production by 10%',
@@ -450,7 +450,7 @@
   }...
 }
 </code></pre>
-				<p><strong>activateSpell(name)</strong>: activate the spell <i>name</i>. Return true if it succeeds, false otherwise.</p>
+				<p><strong>spell.activateSpell(name)</strong>: activate the spell <i>name</i>. Return true if it succeeds, false otherwise.</p>
               </div>
             </div>
           </div>
