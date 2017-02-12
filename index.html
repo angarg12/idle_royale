@@ -389,8 +389,7 @@
 				<p><strong>turn</strong>: current turn.</p>
 				<p><strong>production</strong>: your total production per turn.</p>
 				<p><strong>cache</strong>: cache where you can store variables between turns.</p>
-                <h2>Actor</h2>
-				<p>Object that contains the player data. It has the following format.</p>
+                <p><strong>actor</strong>: object that contains the player data. It has the following format.</p>
 				<pre><code>actor = {
   power: 15e6,
   generators: {
@@ -406,6 +405,7 @@
   }
 }
 </code></pre>	
+                <p><strong>opponent</strong>: object that contains the enemy data. It has the same format as actor.</p>
                 <h2>Generator</h2>
 				<p>Generators produce power each turn.</p>
 				<p><strong>generator.getKeys()</strong>: list of all generator names.</p>	

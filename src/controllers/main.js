@@ -20,7 +20,7 @@ angular
 'spellEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, spell, script, enemy, generatorEnemy, upgradeEnemy, spellEnemy, scriptEnemy) {
-  $scope.version = '0.7.3';
+  $scope.version = '0.7.4';
   $scope.Math = window.Math;
   
   $scope.util = util;
@@ -134,8 +134,12 @@ if(production > 334){\
 		
 		self.processSpells(player);
 		self.processSpells(enemy);
-		$scope.error_msg = script.eval(angular.copy(player.data), $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
-		scriptEnemy.eval(angular.copy(enemy.data), $scope.goal, $scope.turn, $scope.totalProduction(enemy, player, generator, upgrade));
+		var opponent = angular.copy(enemy.data);
+		opponent.script = undefined;
+		$scope.error_msg = script.eval(angular.copy(player.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
+		var opponent = angular.copy(player.data);
+		opponent.script = undefined;
+		scriptEnemy.eval(angular.copy(enemy.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(enemy, player, generator, upgrade));
 		generator.clear();
 		upgrade.clear();
 		spell.clear();

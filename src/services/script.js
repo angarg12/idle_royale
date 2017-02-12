@@ -19,7 +19,7 @@ function Script(generator, upgrade, spell) {
 	cache = {};
   };
   
-  this.eval = function(actor, goal, turn, production){
+  this.eval = function(actor, opponent, goal, turn, production){
 	  try{
 	    eval(this.script);
 	  }catch(error){
