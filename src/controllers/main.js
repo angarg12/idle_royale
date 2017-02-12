@@ -150,7 +150,7 @@ if(production > 334){\
   $scope.init = function () {
     $scope.current_tab = "Game";
     $scope.turn = 0;
-    $scope.goal = 5e9;
+    $scope.goal = 2e10;
     $scope.error_msg = "";
     // win, lose, tie
     $scope.status = "";
