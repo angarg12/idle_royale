@@ -34,6 +34,8 @@ function Spell(actor, opponent) {
 			for(var generator in opponent.data.generators){
 			  opponent.data.generators[generator].level = 0;
 			}
+			actor.data.generators['Tier 1'].level = 1;
+			opponent.data.generators['Tier 1'].level = 1;
 		},
 		price: 1,
 		charges: 1
