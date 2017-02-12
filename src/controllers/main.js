@@ -37,7 +37,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   var self = this;
 
   var player_script = "generator.buyGenerators('Tier 1',1);";
-  var enemy_script = "if(actor.power < 0.8*goal){\
+  var enemy_script = "if(actor.power < 0.2*goal){\
 var gens = generator.getKeys();\
 for(var i = gens.length; i > 0; i--){\
   var number = generator.maxBuy(gens[i-1]);\
@@ -47,12 +47,12 @@ var ups = upgrade.getKeys();\
 for(var i = ups .length; i > 0; i--){\
   upgrade.buyUpgrade(ups[i-1]);\
 }\
+}\
 if(production > 167){\
   spell.activateSpell('Surge');\
 }\
 if(production > 334){\
   spell.activateSpell('Drain');\
-}\
 }";
   
   player.setScope($scope);
@@ -154,9 +154,7 @@ if(production > 334){\
 	player.data.script = player_script;
     enemy.populatePlayer();
 	enemy.data.script = enemy_script;
-	// FIXME delete
-	script.script = enemy_script;
-	//scriptEnemy.script = enemy_script;
+	scriptEnemy.script = enemy_script;
   };
 
   $scope.restart = function() {
