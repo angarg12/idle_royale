@@ -451,6 +451,33 @@
 }
 </code></pre>
 				<p><strong>spell.activateSpell(name)</strong>: activate the spell <i>name</i>. Return true if it succeeds, false otherwise.</p>
+                <h1>Examples</h1>
+				<p>Buy 6 generators of Tier 1. If you can't buy 6, it won't do anything.</p>
+				<pre><code>generator.buyGenerators('Tier 1',6);</code></pre>
+				<p>Buy upgrade Tier 1-1.</p>
+				<pre><code>upgrade.buyUpgrade('Tier 1-1');</code></pre>
+				<p>Activate spell Armageddon.</p>
+				<pre><code>spell.activateSpell('Armageddon');</code></pre>
+				<p>Buy as many generators as you can of Tier 1.</p>
+				<pre><code>generator.buyGenerators('Tier 1',generator.maxBuy('Tier 1'));</code></pre>
+				<p>Buy 1 of each generator.</p>
+				<pre><code>for (var genName in generator.getKeys()){
+    generator.buyGenerators(generator.getKeys()[genName],1);
+}</code></pre>
+				<p>Use the cache to store a variable and use it between turns. Cache gets reset each time you load the script.</p>
+				<pre><code>if(!cache.counter){
+    cache.counter = 10;
+}
+if(cache.counter > 0){
+    // do something
+    cache.counter--;
+}</code></pre>
+				<p>Access object fields to use its value in your code.</p>
+				<pre><code>actor.power // your current power
+opponent.power // your enemy power
+generator.getGenerators()['Tier 1'].price
+upgrade.getUpgrades()['Tier 1-1'].price
+spell.getSpells()['Surge'].price</code></pre>
               </div>
             </div>
           </div>
