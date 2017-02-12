@@ -156,9 +156,11 @@ if(production > 334){\
     $scope.status = "";
     player.populatePlayer();
 	player.data.script = player_script;
+	script.clearCache();
     enemy.populatePlayer();
 	enemy.data.script = enemy_script;
 	scriptEnemy.script = enemy_script;
+	scriptEnemy.clearCache();
   };
 
   $scope.restart = function() {
