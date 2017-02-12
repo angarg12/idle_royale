@@ -35,11 +35,6 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   $scope.upgradeEnemy = upgradeEnemy;
   $scope.spellEnemy = spellEnemy;
   var self = this;
-  
-  $scope.current_tab = "Game";
-  $scope.turn = 0;
-  $scope.goal = 1e9;
-  $scope.error_msg = "";
 
   var player_script = "generator.buyGenerators('Tier 1',1);";
   var enemy_script = "if(actor.power < 0.8*goal){\
@@ -52,7 +47,12 @@ var ups = upgrade.getKeys();\
 for(var i = ups .length; i > 0; i--){\
   upgrade.buyUpgrade(ups[i-1]);\
 }\
-spell.activateSpell('Drain');\
+if(production > 167){\
+  spell.activateSpell('Surge');\
+}\
+if(production > 334){\
+  spell.activateSpell('Drain');\
+}\
 }";
   
   player.setScope($scope);
@@ -116,16 +116,31 @@ spell.activateSpell('Drain');\
   };  
   
   self.update = function () {
-    self.processProduction(player, enemy, generator, upgrade);
-    self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
-	self.processSpells(player);
-	self.processSpells(enemy);
-	$scope.error_msg = script.eval(angular.copy(player.data), $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
-	scriptEnemy.eval(angular.copy(enemy.data), $scope.goal, $scope.turn, $scope.totalProduction(enemy, player, generator, upgrade));
-	generator.clear();
-	upgrade.clear();
-	spell.clear();
-	$scope.turn++;
+	if(!$scope.status){		
+		self.processProduction(player, enemy, generator, upgrade);
+		self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
+		
+		if(player.data.power >= $scope.goal 
+		  && enemy.data.power >= $scope.goal){
+		  $scope.status = "tie";
+		  return;
+		}else if(player.data.power >= $scope.goal){
+		  $scope.status = "win";
+		  return;
+		}else if(enemy.data.power >= $scope.goal){
+		  $scope.status = "lose";
+		  return;
+		}
+		
+		self.processSpells(player);
+		self.processSpells(enemy);
+		$scope.error_msg = script.eval(angular.copy(player.data), $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
+		scriptEnemy.eval(angular.copy(enemy.data), $scope.goal, $scope.turn, $scope.totalProduction(enemy, player, generator, upgrade));
+		generator.clear();
+		upgrade.clear();
+		spell.clear();
+		$scope.turn++;
+	}
   };
 
   $scope.init = function () {
@@ -133,13 +148,24 @@ spell.activateSpell('Drain');\
     $scope.turn = 0;
     $scope.goal = 1e9;
     $scope.error_msg = "";
+    // win, lose, tie
+    $scope.status = "";
     player.populatePlayer();
 	player.data.script = player_script;
     enemy.populatePlayer();
 	enemy.data.script = enemy_script;
-	scriptEnemy.script = enemy_script;
+	// FIXME delete
+	script.script = enemy_script;
+	//scriptEnemy.script = enemy_script;
   };
 
+  $scope.restart = function() {
+	var answer = confirm("Do you want to restart the round?");
+	if(answer){
+		$scope.init();
+	}
+  };
+  
   self.startup = function () {
 	$scope.init();
 	savegame.load();

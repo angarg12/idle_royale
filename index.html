@@ -72,13 +72,17 @@
 			  <div class="col-lg-12">
 			  <center><h1>Goal: <span ng-bind-html="util.trustHTML(util.prettifyNumber(goal))"></span></h1></center>
 			  <center><h1>Turn: <span ng-bind-html="util.trustHTML(util.prettifyNumber(turn))"></span></h1></center>
+			  <center ng-if="status == 'win'" class="text-success"><h1>You win!!</h1></center>
+			  <center ng-if="status == 'lose'" class="text-danger"><h1>You lose</h1></center>
+			  <center ng-if="status == 'tie'" class="text-warning"><h1>You tied</h1></center>
+			  <center><button ng-click="restart()">Restart</button></center>
               </div>
               <div class="col-lg-6">
                 <h1>Player</h1>
 				<h2>Goal</h2>				
 				<div class="progress-striped">
-					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{player.data.power/1e9*100}}%">
-						{{Math.max(Math.floor(player.data.power/1e9*100)/10,0)}}%
+					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{player.data.power/goal*100}}%">
+						{{Math.max(player.data.power/goal*100,0) | number}}%
 					</div>
 				</div>
                 <h2>Power</h2>
@@ -225,8 +229,8 @@
                 <h1>Bot</h1>
 				<h2>Goal</h2>				
 				<div class="progress-striped">
-					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{enemy.data.power/1e9*100}}%">
-						{{Math.max(Math.floor(enemy.data.power/1e9*100)/10,0)}}%
+					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{enemy.data.power/goal*100}}%">
+						{{Math.max(player.data.power/goal*100,0) | number}}%
 					</div>
 				</div>
                 <h2>Power</h2>
