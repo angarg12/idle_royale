@@ -37,7 +37,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame,
   var self = this;
 
   var player_script = "generator.buyGenerators('Tier 1',1);";
-  var enemy_script = "if(actor.power < 0.2*goal){\
+  var enemy_script = "if(actor.power < 0.004*goal){\
 var gens = generator.getKeys();\
 for(var i = gens.length; i > 0; i--){\
   var number = generator.maxBuy(gens[i-1]);\
@@ -146,7 +146,7 @@ if(production > 334){\
   $scope.init = function () {
     $scope.current_tab = "Game";
     $scope.turn = 0;
-    $scope.goal = 1e9;
+    $scope.goal = 5e9;
     $scope.error_msg = "";
     // win, lose, tie
     $scope.status = "";

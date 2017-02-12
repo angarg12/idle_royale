@@ -54,7 +54,7 @@ function Spell(actor, opponent) {
 			actor.data.power = 0; 
 			opponent.data.power = 0;
 		},
-		price: 8e8,
+		price: 3e9,
 		charges: 1
 	}
   };
