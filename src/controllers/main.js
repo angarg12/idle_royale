@@ -167,7 +167,7 @@ if(production > 334){\
   self.startup = function () {
 	$scope.init();
 	savegame.load();
-    $interval(self.update, 1);
+    $interval(self.update, 1000);
     $interval(savegame.save, 10000);
   };
   
