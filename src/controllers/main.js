@@ -20,7 +20,7 @@ angular
 'spellEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, spell, script, enemy, generatorEnemy, upgradeEnemy, spellEnemy, scriptEnemy) {
-  $scope.version = '0.7.4';
+  $scope.version = '0.8.0';
   $scope.Math = window.Math;
   
   $scope.util = util;

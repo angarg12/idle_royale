@@ -99,6 +99,9 @@
 						  <th class="col-md-1">
 						    Price
 						  </th>
+						  <th class="col-md-1">
+						    Buy
+						  </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -120,6 +123,9 @@
                             <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generator.generatorPrice(name)))"></div>
                             &nbsp;
                           </td>
+                          <td class="col-md-1">
+                            <button ng-click="generator.buyGenerators(name,1)">Buy</button>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -139,6 +145,9 @@
 						  <th class="col-md-1">
 						    Price
 						  </th>
+						  <th class="col-md-1">
+						    Buy
+						  </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -152,6 +161,9 @@
 						  <td class="col-md-1">
 						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgrade.getUpgrades()[up].price))"></div>
 						  </td>
+                          <td class="col-md-1">
+                            <button ng-click="upgrade.buyUpgrade(up)">Buy</button>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -185,7 +197,8 @@
                       <tbody>
                         <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
 						  <td class="col-md-1">
-						    {{sp}}
+						    {{sp}}<br>
+							<button ng-click="spell.activateSpell(sp)">Activate</button>
 						  </td>
 						  <td class="col-md-1" ng-if="!player.data.spells[sp].active">
 						    {{spell.getSpells()[sp].duration}}
@@ -254,6 +267,7 @@
                           <td class="col-md-1">
                             <span class="pull-left">
                             {{name}}
+                            <button class="invisible">.</button>
                             </span>
                           </td>
                           <td class="col-md-1">
@@ -293,6 +307,7 @@
                         <tr ng-repeat="up in upgradeEnemy.getKeys()" ng-class="{'bg-success': enemy.data.upgrades[up].bought == true}">
 						  <td class="col-md-1">
 						    {{up}}
+                            <button class="invisible">.</button>
 						  </td>
 						  <td class="col-md-1">
 						    {{upgradeEnemy.getUpgrades()[up].description}}
@@ -335,6 +350,7 @@
                         <tr ng-repeat="sp in spellEnemy.getKeys()" ng-class="[{'success': enemy.data.spells[sp].active},{'warning': !enemy.data.spells[sp].active && (enemy.data.spells[sp].charges == undefined || enemy.data.spells[sp].charges > 0) && enemy.data.spells[sp].cooldown > 0},{'danger': !enemy.data.spells[sp].active && enemy.data.spells[sp].charges <= 0}]">
 						  <td class="col-md-1">
 						    {{sp}}
+                            <button class="invisible">.</button>
 						  </td>
 						  <td class="col-md-1" ng-if="!enemy.data.spells[sp].active">
 						    {{spellEnemy.getSpells()[sp].duration}}

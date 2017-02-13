@@ -96,8 +96,13 @@ body{
 	background-size:40px 40px
 }
 
-
 textarea {
     resize: none;
 	width:100%;
+}
+
+invisble {
+    background: transparent;
+    border: none !important;
+    font-size:0;
 }
