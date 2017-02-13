@@ -20,7 +20,7 @@ angular
 'spellEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, spell, script, enemy, generatorEnemy, upgradeEnemy, spellEnemy, scriptEnemy) {
-  $scope.version = '0.8.0';
+  $scope.version = '0.8.1';
   $scope.Math = window.Math;
   
   $scope.util = util;
@@ -126,6 +126,11 @@ if(production > 334){\
 		  return;
 		}else if(player.data.power >= $scope.goal){
 		  $scope.status = "win";
+		  player.rounds[$scope.current_enemy].wins++;
+		  if(!player.rounds[$scope.current_enemy].record 
+		    || $scope.turn < player.rounds[$scope.current_enemy].record){
+		    player.rounds[$scope.current_enemy].record = $scope.turn;
+		  }
 		  return;
 		}else if(enemy.data.power >= $scope.goal){
 		  $scope.status = "lose";
@@ -146,19 +151,20 @@ if(production > 334){\
 		$scope.turn++;
 	}
   };
-
+  
   $scope.init = function () {
+    player.populatePlayer();
+    enemy.populatePlayer();
     $scope.current_tab = "Game";
     $scope.turn = 0;
     $scope.goal = 2e10;
     $scope.error_msg = "";
     // win, lose, tie
     $scope.status = "";
-    player.populatePlayer();
-	player.data.script = player_script;
+	$scope.current_enemy = "Bot";
 	script.clearCache();
-    enemy.populatePlayer();
-	enemy.data.script = enemy_script;
+	player.script = player_script;
+	enemy.script = enemy_script;
 	scriptEnemy.script = enemy_script;
 	scriptEnemy.clearCache();
   };
@@ -173,7 +179,7 @@ if(production > 334){\
   self.startup = function () {
 	$scope.init();
 	savegame.load();
-    $interval(self.update, 1000);
+    $interval(self.update, 1);
     $interval(savegame.save, 10000);
   };
   

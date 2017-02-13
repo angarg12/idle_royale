@@ -54,8 +54,8 @@
           <div class="tab-content ng-scope " id="game">
             <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
               <div class="col-lg-6">
-			  <textarea rows="10" ng-model="player.data.script"></textarea>
-			  <button ng-click="script.clearCache(); script.script = player.data.script;">Load</button>
+			  <textarea rows="10" ng-model="player.script"></textarea>
+			  <button ng-click="script.clearCache(); script.script = player.script;">Load</button>
               </div>
 			  <div class="col-lg-6 pull-left">
 			  <textarea rows="10" disabled ng-model="script.script"></textarea> 
@@ -67,7 +67,38 @@
 			  <center ng-if="status == 'win'" class="text-success"><h1>You win!!</h1></center>
 			  <center ng-if="status == 'lose'" class="text-danger"><h1>You lose</h1></center>
 			  <center ng-if="status == 'tie'" class="text-warning"><h1>You tied</h1></center>
+			  <div>
+			  <div class="col-lg-4"></div>
+			  <div class="col-lg-4">
+			  <table class="table">
+				  <thead>
+					<tr class="active">
+					  <th>
+						Victories
+					  </th>
+					  <th>
+						Record
+					  </th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr>
+					  <td class="col-md-1">
+					    {{player.rounds['Bot'].wins}}
+					  </td>
+					  <td class="col-md-1">
+					    {{player.rounds['Bot'].record}}
+					  </td>
+					</tr>
+				  </tbody>
+			  </table>
+			  </div>
+			  <div class="col-lg-4"></div>
+			  </div>
+			  <div class="col-lg-12">
 			  <center><button ng-click="restart()">Restart</button></center>
+			  <br>
+			  </div>
               </div>
               <div class="col-lg-6">
                 <h1>Player</h1>

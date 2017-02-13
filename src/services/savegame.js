@@ -10,19 +10,25 @@ function(player) {
   };
 
   this.save = function () {
-    localStorage.setItem("playerStoredIR", player.data.script);
+    localStorage.setItem("IRscript", player.script);
+	localStorage.setItem("IRrounds", JSON.stringify(player.rounds));
   };
 
   this.load = function () {
     try {
-      var save = localStorage.getItem("playerStoredIR");
-	  if(save){
-		player.data.script = save;
+      var script = localStorage.getItem("IRscript");
+      var rounds = localStorage.getItem("IRrounds");
+	  
+	  if(script && rounds){
+		player.script = script;
+		player.rounds = JSON.parse(rounds);
+	  }else{
+        $scope.init();		  
 	  }
     } catch (err) {
-	  alert(err)
+		alert(err)
       alert("Error loading savegame, reset forced.");
-      $scope.init();
+      $scope.init();	
     }
   };
 }]);

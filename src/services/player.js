@@ -8,8 +8,16 @@ angular
 function Player() {  
   var $scope;
   this.data;
+  this.script = "";
+  this.start_rounds = {
+	  'Bot':{
+	    wins: 0,
+		record: undefined
+	  }
+	};
+  this.rounds = angular.copy(this.start_rounds);
   
-  var startPlayer = {
+  this.startPlayer = {
 	power: 15,
 	generators: {
 		'Tier 1':{level:0},
@@ -81,16 +89,15 @@ function Player() {
 	  'Weakness':{
 		active: false
 	  }
-	},
-	script: ""
+	}
   };
   
   this.setScope = function (scope){
     $scope = scope;
-    startPlayer.version = $scope.version;
+    this.startPlayer.version = $scope.version;
   };
 
   this.populatePlayer = function () {
-    this.data = angular.copy(startPlayer);
+    this.data = angular.copy(this.startPlayer);
   };
 }
