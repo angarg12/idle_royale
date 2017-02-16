@@ -61,7 +61,6 @@ body{
 	height:36px;
 }
 
-
 .progress, .progress-striped{
 	overflow:hidden;
 	height:20px;
@@ -96,13 +95,69 @@ body{
 	background-size:40px 40px
 }
 
-textarea {
+.scriptarea {
     resize: none;
 	width:100%;
 }
 
-invisble {
+.invisble {
     background: transparent;
     border: none !important;
     font-size:0;
+}
+
+.wrapper {
+    padding-left: 150px;
+}
+
+a.svg {
+ position: relative;
+ display: inline-block; 
+}
+
+a.svg:after {
+  content: ""; 
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left:0;
+}
+
+.sidebar-top {
+    background: #34495e;
+	color: #c0392b;
+	text-align: center;
+	font-family: 'Kumar One', cursive;
+    padding: 10px;
+	font-size: 25px;
+}
+
+.sidebar-wrapper {
+    position: fixed;
+    left: 150px;
+    width: 150px;
+    height: 100%;
+    margin-left: -150px;
+    overflow-y: auto;
+    background: #000;
+	color: #fff;
+}
+
+.page-content-wrapper {
+    width: 100%;
+    position: relative;
+    padding: 15px;
+    margin-right: -150px;
+}
+
+.version {
+	font-size: 12px;
+}
+
+.player-area {
+}
+
+.bot-area {
+    background: #bdc3c7;
 }
