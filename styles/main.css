@@ -125,7 +125,7 @@ a.svg:after {
 }
 
 .sidebar-top {
-    background: #2c3e50;
+    background: #000;
 	color: #c0392b;
 	text-align: center;
 	font-family: 'Kumar One', cursive;
@@ -140,7 +140,7 @@ a.svg:after {
     height: 100%;
     margin-left: -150px;
     overflow-y: auto;
-    background: #000;
+    background: #2c3e50;
 	color: #fff;
 }
 
