@@ -161,3 +161,8 @@ a.svg:after {
 .bot-area {
     background: #bdc3c7;
 }
+
+.CodeMirror {
+	border-top: 1px solid black; 
+	border-bottom: 1px solid black;
+}

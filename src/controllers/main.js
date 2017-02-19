@@ -20,7 +20,7 @@ angular
 'spellEnemy',
 'scriptEnemy',
 function ($scope, $document, $interval, $sce, $filter, $timeout, util, savegame, player, generator, upgrade, spell, script, enemy, generatorEnemy, upgradeEnemy, spellEnemy, scriptEnemy) {
-  $scope.version = '0.8.2';
+  $scope.version = '0.8.4';
   $scope.Math = window.Math;
   
   $scope.util = util;
@@ -142,6 +142,9 @@ if(production > 334){\
 		var opponent = angular.copy(enemy.data);
 		opponent.script = undefined;
 		$scope.error_msg = script.eval(angular.copy(player.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
+		generator.clear();
+		upgrade.clear();
+		spell.clear();
 		var opponent = angular.copy(player.data);
 		opponent.script = undefined;
 		scriptEnemy.eval(angular.copy(enemy.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(enemy, player, generator, upgrade));
@@ -150,6 +153,17 @@ if(production > 334){\
 		spell.clear();
 		$scope.turn++;
 	}
+  };
+  
+  $scope.loadScript = function() {
+    script.clearCache();
+    player.script = self.code.getValue();
+    script.script = player.script;
+
+    self.codeoutput.setValue(script.script);
+    setTimeout(function() {
+      self.codeoutput.refresh();
+    },1);
   };
   
   $scope.init = function () {
@@ -161,13 +175,13 @@ if(production > 334){\
     $scope.error_msg = "";
     // win, lose, tie
     $scope.status = "";
-	$scope.current_enemy = "Bot";
-	script.clearCache();
-	player.script = player_script;
-	enemy.script = enemy_script;
-	scriptEnemy.script = enemy_script;
-	scriptEnemy.clearCache();
-  };
+    $scope.current_enemy = "Bot";
+    script.clearCache();
+    player.script = player_script;
+    enemy.script = enemy_script;
+    scriptEnemy.script = enemy_script;
+    scriptEnemy.clearCache();
+	};
 
   $scope.restart = function() {
 	var answer = confirm("Do you want to restart the round?");
@@ -179,6 +193,24 @@ if(production > 334){\
   self.startup = function () {
 	$scope.init();
 	savegame.load();
+      
+	  self.code = CodeMirror.fromTextArea(document.getElementById('code'), {
+        lineNumbers: true
+      });
+    self.code.setValue(player.script);
+    setTimeout(function() {
+      self.code.refresh();
+    },1);
+    
+	  self.codeoutput = CodeMirror.fromTextArea(document.getElementById('codeoutput'), {
+        lineNumbers: true,
+        readOnly: true,
+        theme: 'codemirror_readonly'
+      });
+    self.codeoutput.setValue("");
+    setTimeout(function() {
+      self.codeoutput.refresh();
+    },1);
     $interval(self.update, 400);
     $interval(savegame.save, 10000);
   };

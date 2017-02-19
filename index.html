@@ -15,9 +15,13 @@
     <script type="text/javascript" src="src/services/spell.js"></script>
     <script type="text/javascript" src="src/services/script.js"></script>
     <script type="text/javascript" src="src/controllers/main.js"></script>
+    <script type="text/javascript" src="lib/codemirror.js"></script>
+    <script type="text/javascript" src="mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="styles/codemirror_readonly.css">
     <link rel="stylesheet" type="text/css" href="styles/base-bootstrap.min.css" id="theme_css">
     <link rel="stylesheet" type="text/css" href="styles/main.css">
-	<link href="https://fonts.googleapis.com/css?family=Kumar+One" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Kumar+One" rel="stylesheet">
     <title>Idle Royale</title>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -31,394 +35,401 @@
   </head>
   <body class="ng-scope theme-none" ng-app="incremental" ng-controller="IncCtrl">
     <div class="wrapper">
-	<div class="sidebar-wrapper">
-	<div class="sidebar-top">
-    <object width="130" height="130" data="img/IR_logo.svg"></object>
-	Idle Royale <div class="version">v{{version}}</div>
-	</div>
-	<center>
-	<a href="https://github.com/angarg12/idle_royale/wiki" class="svg" title="Tutorial" target="_blank">
-    <object width="130" height="130" data="img/book-pile.svg"></object>
-	</a>
-	<a href="https://github.com/angarg12/idle_royale" class="svg" title="GitHub" target="_blank">
-    <object width="100" height="100" data="img/github.svg"></object>
-	</a>
-	</center>
-    </div>
-    <div class="page-content-wrapper">
-    <div class="container">
-      <div class="row">
-        <div>
-          <div class="tab-content ng-scope " id="game">
-            <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
-			  <div class="col-lg-12">
-			  <center><h1>Goal: <span ng-bind-html="util.trustHTML(util.prettifyNumber(goal))"></span></h1></center>
-			  <center><h1>Turn: <span ng-bind-html="util.trustHTML(util.prettifyNumber(turn))"></span></h1></center>
-			  <center ng-if="status == 'win'" class="text-success"><h1>You win!!</h1></center>
-			  <center ng-if="status == 'lose'" class="text-danger"><h1>You lose</h1></center>
-			  <center ng-if="status == 'tie'" class="text-warning"><h1>You tied</h1></center>
-			  <div>
-			  <div class="col-lg-4"></div>
-			  <div class="col-lg-4">
-			  <table class="table">
-				  <thead>
-					<tr class="active">
-					  <th>
-						Victories
-					  </th>
-					  <th>
-						Record
-					  </th>
-					</tr>
-				  </thead>
-				  <tbody>
-					<tr>
-					  <td class="col-md-1">
-					    {{player.rounds['Bot'].wins}}
-					  </td>
-					  <td class="col-md-1">
-					    {{player.rounds['Bot'].record}}
-					  </td>
-					</tr>
-				  </tbody>
-			  </table>
-			  </div>
-			  <div class="col-lg-4"></div>
-			  </div>
-			  <div class="col-lg-12">
-			  <center><button ng-click="restart()">Restart</button></center>
-			  <br>
-			  </div>
-              </div>
-              <div class="col-lg-6">
-			  <textarea class="scriptarea" rows="10" ng-model="player.script"></textarea>
-			  <button ng-click="script.clearCache(); script.script = player.script;">Load</button>
-              </div>
-			  <div class="col-lg-6 pull-left">
-			  <textarea class="scriptarea" rows="10" disabled ng-model="script.script"></textarea> 
-			  <div class="alert alert-danger" ng-if="error_msg"><strong>Error:</strong> <span ng-bind-html="util.trustHTML(error_msg)"></span></div>
-              </div>
-              <div class="col-lg-12"></div>
-              <div class="col-lg-6">
-                <h1>Player</h1>
-				<h2>Goal</h2>				
-				<div class="progress-striped">
-					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{player.data.power/goal*100}}%">
-						{{Math.max(player.data.power/goal*100,0) | number}}%
-					</div>
-				</div>
-                <h2>Power</h2>
-                <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, enemy, generator, upgrade)))" id="production_total"></span>/t</h3>
-                <div>
+      <div class="sidebar-wrapper">
+        <div class="sidebar-top">
+          <object width="130" height="130" data="img/IR_logo.svg"></object>
+          Idle Royale 
+          <div class="version">v{{version}}</div>
+        </div>
+        <center>
+          <a href="https://github.com/angarg12/idle_royale/wiki" class="svg" title="Tutorial" target="_blank">
+          <object width="130" height="130" data="img/book-pile.svg"></object>
+          </a>
+          <a href="https://github.com/angarg12/idle_royale" class="svg" title="GitHub" target="_blank">
+          <object width="100" height="100" data="img/github.svg"></object>
+          </a>
+        </center>
+      </div>
+      <div class="page-content-wrapper">
+        <div class="container">
+          <div class="row">
+            <div class="tab-content ng-scope " id="game">
+              <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
+                <div class="col-lg-12">
+                  <center>
+                    <h1>Goal: <span ng-bind-html="util.trustHTML(util.prettifyNumber(goal))"></span></h1>
+                  </center>
+                  <center>
+                    <h1>Turn: <span ng-bind-html="util.trustHTML(util.prettifyNumber(turn))"></span></h1>
+                  </center>
+                  <center ng-if="status == 'win'" class="text-success">
+                    <h1>You win!!</h1>
+                  </center>
+                  <center ng-if="status == 'lose'" class="text-danger">
+                    <h1>You lose</h1>
+                  </center>
+                  <center ng-if="status == 'tie'" class="text-warning">
+                    <h1>You tied</h1>
+                  </center>
                   <div>
-                    <hr>
-                    <h4>Generators</h4>
-                    <table class="table">
-                      <thead>
-					    <tr class="active">
-						  <th class="col-md-1">
-						    Name
-						  </th>
-						  <th class="col-md-1">
-						    Level
-						  </th>
-						  <th class="col-md-1">
-						    Production
-						  </th>
-						  <th class="col-md-1">
-						    Price
-						  </th>
-						  <th class="col-md-1">
-						    Buy
-						  </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="name in generator.getKeys()">
-                          <td class="col-md-1">
-                            <span class="pull-left">
-                            {{name}}
-                            </span>
-                          </td>
-                          <td class="col-md-1">
-                            <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.generators[name].level))"></div>
-                          </td>
-                          <td class="col-md-1">
-                            <div class="pull-left">
-                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, enemy, generator, upgrade, name)))"></span> /t
-                            </div>
-                          </td>
-                          <td class="col-md-1">
-                            <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generator.generatorPrice(name)))"></div>
-                            &nbsp;
-                          </td>
-                          <td class="col-md-1">
-                            <button ng-click="generator.buyGenerators(name,1)">Buy</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th>
+                              Victories
+                            </th>
+                            <th>
+                              Record
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="col-md-1">
+                              {{player.rounds['Bot'].wins}}
+                            </td>
+                            <td class="col-md-1">
+                              {{player.rounds['Bot'].record}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="col-lg-4"></div>
                   </div>
-				  <div>
-                    <hr>
-                    <h4>Upgrades</h4>
-                    <table class="table">
-                      <thead>
-					    <tr class="active">
-						  <th class="col-md-1">
-						    Name
-						  </th>
-						  <th class="col-md-1">
-						    Description
-						  </th>
-						  <th class="col-md-1">
-						    Price
-						  </th>
-						  <th class="col-md-1">
-						    Buy
-						  </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="up in upgrade.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
-						  <td class="col-md-1">
-						    {{up}}
-						  </td>
-						  <td class="col-md-1">
-						    {{upgrade.getUpgrades()[up].description}}
-						  </td>
-						  <td class="col-md-1">
-						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgrade.getUpgrades()[up].price))"></div>
-						  </td>
-                          <td class="col-md-1">
-                            <button ng-click="upgrade.buyUpgrade(up)">Buy</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div class="col-lg-12">
+                    <center><button ng-click="restart()">Restart</button></center>
+                    <br>
                   </div>
-				  <div>
-                    <hr>
-                    <h4>Spells</h4>
-                    <table class="table">
-                      <thead>
-					    <tr class="active">
-						  <th class="col-md-1">
-						    Name
-						  </th>
-						  <th class="col-md-1">
-						    Duration
-						  </th>
-						  <th class="col-md-1">
-						    Cooldown
-						  </th>
-						  <th class="col-md-1">
-						    Charges
-						  </th>
-						  <th class="col-md-1">
-						    Price
-						  </th>
-						  <th class="col-md-1">
-						    Description
-						  </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
-						  <td class="col-md-1">
-						    {{sp}}<br>
-							<button ng-click="spell.activateSpell(sp)">Activate</button>
-						  </td>
-						  <td class="col-md-1" ng-if="!player.data.spells[sp].active">
-						    {{spell.getSpells()[sp].duration}}
-						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].active">
-						    {{player.data.spells[sp].duration}}
-						  </td>
-						  <td class="col-md-1" ng-if="!player.data.spells[sp].cooldown ||  player.data.spells[sp].cooldown <= 0">
-						    {{spell.getSpells()[sp].cooldown}} 
-						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
-						    {{player.data.spells[sp].cooldown}}
-						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].charges === undefined">
-						    {{spell.getSpells()[sp].charges}}
-						  </td>
-						  <td class="col-md-1" ng-if="player.data.spells[sp].charges >= 0">
-						    {{player.data.spells[sp].charges}}
-						  </td>
-						  <td class="col-md-1">
-						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>
-						  </td>
-						  <td class="col-md-1">
-						    {{spell.getSpells()[sp].description}}
-						  </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                </div>
+                <div class="col-lg-6">
+                  <div><textarea id="code" name="code"></textarea></div>
+                  <button ng-click="loadScript()">Load</button>
+                </div>
+                <div class="col-lg-6 pull-left">
+                  <div><textarea id="codeoutput" name="codeoutput"></textarea></div>
+                  <div class="alert alert-danger" ng-if="error_msg"><strong>Error:</strong> <span ng-bind-html="util.trustHTML(error_msg)"></span></div>
+                </div>
+                <div class="col-lg-12"></div>
+                <div class="col-lg-6">
+                  <h1>Player</h1>
+                  <h2>Goal</h2>
+                  <div class="progress-striped">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{player.data.power/goal*100}}%">
+                      {{Math.max(player.data.power/goal*100,0) | number}}%
+                    </div>
+                  </div>
+                  <h2>Power</h2>
+                  <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.power))"></span></h2>
+                  <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(player, enemy, generator, upgrade)))" id="production_total"></span>/t</h3>
+                  <div>
+                    <div>
+                      <hr>
+                      <h4>Generators</h4>
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th class="col-md-1">
+                              Name
+                            </th>
+                            <th class="col-md-1">
+                              Level
+                            </th>
+                            <th class="col-md-1">
+                              Production
+                            </th>
+                            <th class="col-md-1">
+                              Price
+                            </th>
+                            <th class="col-md-1">
+                              Buy
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="name in generator.getKeys()">
+                            <td class="col-md-1">
+                              <span class="pull-left">
+                              {{name}}
+                              </span>
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(player.data.generators[name].level))"></div>
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left">
+                                <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(player, enemy, generator, upgrade, name)))"></span> /t
+                              </div>
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generator.generatorPrice(name)))"></div>
+                              &nbsp;
+                            </td>
+                            <td class="col-md-1">
+                              <button ng-click="generator.buyGenerators(name,1)">Buy</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <hr>
+                      <h4>Upgrades</h4>
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th class="col-md-1">
+                              Name
+                            </th>
+                            <th class="col-md-1">
+                              Description
+                            </th>
+                            <th class="col-md-1">
+                              Price
+                            </th>
+                            <th class="col-md-1">
+                              Buy
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="up in upgrade.getKeys()" ng-class="{'bg-success': player.data.upgrades[up].bought == true}">
+                            <td class="col-md-1">
+                              {{up}}
+                            </td>
+                            <td class="col-md-1">
+                              {{upgrade.getUpgrades()[up].description}}
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgrade.getUpgrades()[up].price))"></div>
+                            </td>
+                            <td class="col-md-1">
+                              <button ng-click="upgrade.buyUpgrade(up)">Buy</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <hr>
+                      <h4>Spells</h4>
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th class="col-md-1">
+                              Name
+                            </th>
+                            <th class="col-md-1">
+                              Duration
+                            </th>
+                            <th class="col-md-1">
+                              Cooldown
+                            </th>
+                            <th class="col-md-1">
+                              Charges
+                            </th>
+                            <th class="col-md-1">
+                              Price
+                            </th>
+                            <th class="col-md-1">
+                              Description
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
+                            <td class="col-md-1">
+                              {{sp}}<br>
+                              <button ng-click="spell.activateSpell(sp)">Activate</button>
+                            </td>
+                            <td class="col-md-1" ng-if="!player.data.spells[sp].active">
+                              {{spell.getSpells()[sp].duration}}
+                            </td>
+                            <td class="col-md-1" ng-if="player.data.spells[sp].active">
+                              {{player.data.spells[sp].duration}}
+                            </td>
+                            <td class="col-md-1" ng-if="!player.data.spells[sp].cooldown ||  player.data.spells[sp].cooldown <= 0">
+                              {{spell.getSpells()[sp].cooldown}} 
+                            </td>
+                            <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
+                              {{player.data.spells[sp].cooldown}}
+                            </td>
+                            <td class="col-md-1" ng-if="player.data.spells[sp].charges === undefined">
+                              {{spell.getSpells()[sp].charges}}
+                            </td>
+                            <td class="col-md-1" ng-if="player.data.spells[sp].charges >= 0">
+                              {{player.data.spells[sp].charges}}
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spell.getSpells()[sp].price))"></div>
+                            </td>
+                            <td class="col-md-1">
+                              {{spell.getSpells()[sp].description}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 bot-area">
+                  <h1>Bot</h1>
+                  <h2>Goal</h2>
+                  <div class="progress-striped">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{enemy.data.power/goal*100}}%">
+                      {{Math.max(enemy.data.power/goal*100,0) | number}}%
+                    </div>
+                  </div>
+                  <h2>Power</h2>
+                  <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.power))"></span></h2>
+                  <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, player, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/t</h3>
+                  <div>
+                    <div>
+                      <hr>
+                      <h4>Generators</h4>
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th class="col-md-1">
+                              Name
+                            </th>
+                            <th class="col-md-1">
+                              Level
+                            </th>
+                            <th class="col-md-1">
+                              Production
+                            </th>
+                            <th class="col-md-1">
+                              Price
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="name in generatorEnemy.getKeys()">
+                            <td class="col-md-1">
+                              <span class="pull-left">
+                              {{name}}
+                              <button class="invisible">.</button>
+                              </span>
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.generators[name].level))"></div>
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left">
+                                <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, player, generatorEnemy, upgradeEnemy, name)))"></span> /t
+                              </div>
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generatorEnemy.generatorPrice(name)))"></div>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <hr>
+                      <h4>Upgrades</h4>
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th class="col-md-1">
+                              Name
+                            </th>
+                            <th class="col-md-1">
+                              Description
+                            </th>
+                            <th class="col-md-1">
+                              Price
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="up in upgradeEnemy.getKeys()" ng-class="{'bg-success': enemy.data.upgrades[up].bought == true}">
+                            <td class="col-md-1">
+                              {{up}}
+                              <button class="invisible">.</button>
+                            </td>
+                            <td class="col-md-1">
+                              {{upgradeEnemy.getUpgrades()[up].description}}
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgradeEnemy.getUpgrades()[up].price))"></div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <hr>
+                      <h4>Spells</h4>
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th class="col-md-1">
+                              Name
+                            </th>
+                            <th class="col-md-1">
+                              Duration
+                            </th>
+                            <th class="col-md-1">
+                              Cooldown
+                            </th>
+                            <th class="col-md-1">
+                              Charges
+                            </th>
+                            <th class="col-md-1">
+                              Price
+                            </th>
+                            <th class="col-md-1">
+                              Description
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="sp in spellEnemy.getKeys()" ng-class="[{'success': enemy.data.spells[sp].active},{'warning': !enemy.data.spells[sp].active && (enemy.data.spells[sp].charges == undefined || enemy.data.spells[sp].charges > 0) && enemy.data.spells[sp].cooldown > 0},{'danger': !enemy.data.spells[sp].active && enemy.data.spells[sp].charges <= 0}]">
+                            <td class="col-md-1">
+                              {{sp}}
+                              <button class="invisible">.</button>
+                            </td>
+                            <td class="col-md-1" ng-if="!enemy.data.spells[sp].active">
+                              {{spellEnemy.getSpells()[sp].duration}}
+                            </td>
+                            <td class="col-md-1" ng-if="enemy.data.spells[sp].active">
+                              {{enemy.data.spells[sp].duration}}
+                            </td>
+                            <td class="col-md-1" ng-if="!enemy.data.spells[sp].cooldown ||  enemy.data.spells[sp].cooldown <= 0">
+                              {{spellEnemy.getSpells()[sp].cooldown}} 
+                            </td>
+                            <td class="col-md-1" ng-if="enemy.data.spells[sp].cooldown > 0">
+                              {{enemy.data.spells[sp].cooldown}}
+                            </td>
+                            <td class="col-md-1" ng-if="enemy.data.spells[sp].charges === undefined">
+                              {{spellEnemy.getSpells()[sp].charges}}
+                            </td>
+                            <td class="col-md-1" ng-if="enemy.data.spells[sp].charges >= 0">
+                              {{enemy.data.spells[sp].charges}}
+                            </td>
+                            <td class="col-md-1">
+                              <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spellEnemy.getSpells()[sp].price))"></div>
+                            </td>
+                            <td class="col-md-1">
+                              {{spellEnemy.getSpells()[sp].description}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
-			  <div class="col-lg-6 bot-area">
-                <h1>Bot</h1>
-				<h2>Goal</h2>				
-				<div class="progress-striped">
-					<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{enemy.data.power/goal*100}}%">
-						{{Math.max(enemy.data.power/goal*100,0) | number}}%
-					</div>
-				</div>
-                <h2>Power</h2>
-                <h2><span ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.power))"></span></h2>
-                <h3><span ng-bind-html="util.trustHTML(util.prettifyNumber(totalProduction(enemy, player, generatorEnemy, upgradeEnemy)))" id="production_total"></span>/t</h3>
-                <div>
-                  <div>
-                    <hr>
-                    <h4>Generators</h4>
-                    <table class="table">
-                      <thead>
-					    <tr class="active">
-						  <th class="col-md-1">
-						    Name
-						  </th>
-						  <th class="col-md-1">
-						    Level
-						  </th>
-						  <th class="col-md-1">
-						    Production
-						  </th>
-						  <th class="col-md-1">
-						    Price
-						  </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="name in generatorEnemy.getKeys()">
-                          <td class="col-md-1">
-                            <span class="pull-left">
-                            {{name}}
-                            <button class="invisible">.</button>
-                            </span>
-                          </td>
-                          <td class="col-md-1">
-                            <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(enemy.data.generators[name].level))"></div>
-                          </td>
-                          <td class="col-md-1">
-                            <div class="pull-left">
-                              <span ng-bind-html="util.trustHTML(util.prettifyNumber(tierProduction(enemy, player, generatorEnemy, upgradeEnemy, name)))"></span> /t
-                            </div>
-                          </td>
-                          <td class="col-md-1">
-                            <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generatorEnemy.generatorPrice(name)))"></div>
-                            &nbsp;
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-				  <div>
-                    <hr>
-                    <h4>Upgrades</h4>
-                    <table class="table">
-                      <thead>
-					    <tr class="active">
-						  <th class="col-md-1">
-						    Name
-						  </th>
-						  <th class="col-md-1">
-						    Description
-						  </th>
-						  <th class="col-md-1">
-						    Price
-						  </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="up in upgradeEnemy.getKeys()" ng-class="{'bg-success': enemy.data.upgrades[up].bought == true}">
-						  <td class="col-md-1">
-						    {{up}}
-                            <button class="invisible">.</button>
-						  </td>
-						  <td class="col-md-1">
-						    {{upgradeEnemy.getUpgrades()[up].description}}
-						  </td>
-						  <td class="col-md-1">
-						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgradeEnemy.getUpgrades()[up].price))"></div>
-						  </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-				  
-				  <div>
-                    <hr>
-                    <h4>Spells</h4>
-                    <table class="table">
-                      <thead>
-					    <tr class="active">
-						  <th class="col-md-1">
-						    Name
-						  </th>
-						  <th class="col-md-1">
-						    Duration
-						  </th>
-						  <th class="col-md-1">
-						    Cooldown
-						  </th>
-						  <th class="col-md-1">
-						    Charges
-						  </th>
-						  <th class="col-md-1">
-						    Price
-						  </th>
-						  <th class="col-md-1">
-						    Description
-						  </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="sp in spellEnemy.getKeys()" ng-class="[{'success': enemy.data.spells[sp].active},{'warning': !enemy.data.spells[sp].active && (enemy.data.spells[sp].charges == undefined || enemy.data.spells[sp].charges > 0) && enemy.data.spells[sp].cooldown > 0},{'danger': !enemy.data.spells[sp].active && enemy.data.spells[sp].charges <= 0}]">
-						  <td class="col-md-1">
-						    {{sp}}
-                            <button class="invisible">.</button>
-						  </td>
-						  <td class="col-md-1" ng-if="!enemy.data.spells[sp].active">
-						    {{spellEnemy.getSpells()[sp].duration}}
-						  </td>
-						  <td class="col-md-1" ng-if="enemy.data.spells[sp].active">
-						    {{enemy.data.spells[sp].duration}}
-						  </td>
-						  <td class="col-md-1" ng-if="!enemy.data.spells[sp].cooldown ||  enemy.data.spells[sp].cooldown <= 0">
-						    {{spellEnemy.getSpells()[sp].cooldown}} 
-						  </td>
-						  <td class="col-md-1" ng-if="enemy.data.spells[sp].cooldown > 0">
-						    {{enemy.data.spells[sp].cooldown}}
-						  </td>
-						  <td class="col-md-1" ng-if="enemy.data.spells[sp].charges === undefined">
-						    {{spellEnemy.getSpells()[sp].charges}}
-						  </td>
-						  <td class="col-md-1" ng-if="enemy.data.spells[sp].charges >= 0">
-						    {{enemy.data.spells[sp].charges}}
-						  </td>
-						  <td class="col-md-1">
-						    <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(spellEnemy.getSpells()[sp].price))"></div>
-						  </td>
-						  <td class="col-md-1">
-						    {{spellEnemy.getSpells()[sp].description}}
-						  </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>			
-			</div>
-		  </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-	</div>
   </body>
 </html>

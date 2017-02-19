@@ -11,7 +11,7 @@ function(player) {
 
   this.save = function () {
     localStorage.setItem("IRscript", player.script);
-	localStorage.setItem("IRrounds", JSON.stringify(player.rounds));
+	  localStorage.setItem("IRrounds", JSON.stringify(player.rounds));
   };
 
   this.load = function () {
@@ -26,7 +26,6 @@ function(player) {
         $scope.init();		  
 	  }
     } catch (err) {
-		alert(err)
       alert("Error loading savegame, reset forced.");
       $scope.init();	
     }
