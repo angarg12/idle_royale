@@ -113,7 +113,7 @@ function Generator(actor, opponent) {
     return Math.floor(Math.log(((actor.data.power*(priceIncrease-1))/(generators[name].price * Math.pow(priceIncrease, level)))+1)/Math.log(priceIncrease));
   };
   
-  this.buyPrice = function (name, number) {
+  this.buyPrice = buyPrice = function (name, number) {
 	var level = actor.data.generators[name].level;
 	
 	return generators[name].price*(Math.pow(priceIncrease, level)*(Math.pow(priceIncrease, number)-1))/(priceIncrease-1)
@@ -124,10 +124,7 @@ function Generator(actor, opponent) {
 	  return;
 	}
 	
-    var price = this.generatorPrice(name);
-    var i = 0;
-	
-	var price = this.buyPrice(name, number);
+	var price = buyPrice(name, number);
 	if(price > actor.data.power){
 		return false;
 	}
