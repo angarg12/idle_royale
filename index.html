@@ -56,6 +56,9 @@
             <div class="tab-content ng-scope " id="game">
               <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
                 <div class="col-lg-12">
+                <div class="alert alert-danger">
+                  <strong>Important!</strong> An upcoming update will delete savegames. Please save your scripts in a safe place. Thanks for your understanding.
+                </div>
                   <center>
                     <h1>Goal: <span ng-bind-html="util.trustHTML(util.prettifyNumber(goal))"></span></h1>
                   </center>
