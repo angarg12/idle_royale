@@ -2,29 +2,31 @@ angular
 .module('incremental')
 .service('savegame',
 ['player',
-function(player) {  
+'data',
+function(player, data) {  
   var $scope;
   
   this.setScope = function (scope){
     $scope = scope;
   };
 
-  this.save = function () {
-    localStorage.setItem("IRscript", player.script);
-	  localStorage.setItem("IRrounds", JSON.stringify(player.rounds));
+  this.init = function() {
+    data.save = angular.copy(data.start_save);	
+  };
+  
+  this.store = function () {
+    localStorage.setItem("saveIR", JSON.stringify(data.save));
   };
 
   this.load = function () {
     try {
-      var script = localStorage.getItem("IRscript");
-      var rounds = localStorage.getItem("IRrounds");
+      var storage = localStorage.getItem("saveIR");
 	  
-	  if(script && rounds){
-		player.script = script;
-		player.rounds = JSON.parse(rounds);
-	  }else{
-        $scope.init();		  
-	  }
+      if(storage){
+        data.save = JSON.parse(storage);
+      }else{
+        this.init();		  
+      }
     } catch (err) {
       alert("Error loading savegame, reset forced.");
       $scope.init();	

@@ -7,6 +7,7 @@
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="src/modules/module.js"></script>
+    <script type="text/javascript" src="src/services/data.js"></script>
     <script type="text/javascript" src="src/services/generator.js"></script>
     <script type="text/javascript" src="src/services/player.js"></script>
     <script type="text/javascript" src="src/services/savegame.js"></script>
@@ -37,16 +38,24 @@
     <div class="wrapper">
       <div class="sidebar-wrapper">
         <div class="sidebar-top">
-          <object width="130" height="130" data="img/IR_logo.svg"></object>
+          <a ng-click="util.updateCurrent('current_tab','Game')" class="svg" title="Main">
+            <object width="130" height="130" data="img/IR_logo.svg"></object>
+          </a>
           Idle Royale 
           <div class="version">v{{version}}</div>
         </div>
         <center>
           <a href="https://github.com/angarg12/idle_royale/wiki" class="svg" title="Tutorial" target="_blank">
-          <object width="130" height="130" data="img/book-pile.svg"></object>
+          <object width="100" height="100" data="img/book-pile.svg"></object>
           </a>
+          <div>
+          <a ng-click="util.updateCurrent('current_tab','Stats')" class="svg" title="Stats">
+          <span class="glyphicon glyphicon-list stats"></span>
+          </div>
+          </a>
+          <br>
           <a href="https://github.com/angarg12/idle_royale" class="svg" title="GitHub" target="_blank">
-          <object width="100" height="100" data="img/github.svg"></object>
+          <object width="90" height="90" data="img/github.svg"></object>
           </a>
         </center>
       </div>
@@ -54,11 +63,8 @@
         <div class="container">
           <div class="row">
             <div class="tab-content ng-scope " id="game">
-              <div class="tab-pane row" ng-class="{active: current_tab == 'Game'}">
+              <div class="tab-pane row" ng-class="{active: current_tab === 'Game'}">
                 <div class="col-lg-12">
-                <div class="alert alert-danger">
-                  <strong>Important!</strong> An upcoming update will delete savegames. Please save your scripts in a safe place. Thanks for your understanding.
-                </div>
                   <center>
                     <h1>Goal: <span ng-bind-html="util.trustHTML(util.prettifyNumber(goal))"></span></h1>
                   </center>
@@ -74,42 +80,15 @@
                   <center ng-if="status == 'tie'" class="text-warning">
                     <h1>You tied</h1>
                   </center>
-                  <div>
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4">
-                      <table class="table">
-                        <thead>
-                          <tr class="active">
-                            <th>
-                              Victories
-                            </th>
-                            <th>
-                              Record
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="col-md-1">
-                              {{player.rounds['Bot'].wins}}
-                            </td>
-                            <td class="col-md-1">
-                              {{player.rounds['Bot'].record}}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="col-lg-4"></div>
-                  </div>
-                  <div class="col-lg-12">
-                    <center><button ng-click="restart()">Restart</button></center>
-                    <br>
-                  </div>
                 </div>
                 <div class="col-lg-6">
                   <div><textarea id="code" name="code"></textarea></div>
-                  <button ng-click="loadScript()">Load</button>
+                  <button class="btn btn-default btn-lg" title="Load" ng-click="loadScript()"><span class="glyphicon glyphicon-upload"></span></button>
+                  <button class="btn btn-default btn-lg" title="Run"><span class="glyphicon glyphicon-play"></span></button>
+                  <button class="btn btn-default btn-lg" title="Fastforward"><span class="glyphicon glyphicon-forward"></span></button>
+                  <button class="btn btn-default btn-lg" title="Restart" ng-click="restart()"><span class="glyphicon glyphicon-repeat"></span></button>
+                  <button class="btn btn-default btn-lg" title="Slot 1" ng-class="{active:current_slot == 1}" ng-click="util.updateCurrent('current_slot',1);changeSlot();">&nbsp;1&nbsp;</button>
+                  <button class="btn btn-default btn-lg" title="Slot 2" ng-class="{active:current_slot == 2}" ng-click="util.updateCurrent('current_slot',2);changeSlot();">&nbsp;2&nbsp;</button>
                 </div>
                 <div class="col-lg-6 pull-left">
                   <div><textarea id="codeoutput" name="codeoutput"></textarea></div>
@@ -426,6 +405,35 @@
                         </tbody>
                       </table>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane row" ng-class="{active: current_tab === 'Stats'}">
+                <div class="col-lg-12">
+                  <h1>Stats</h1>
+                  <div class="col-lg-4">
+                    <table class="table">
+                      <thead>
+                        <tr class="active">
+                          <th>
+                            Victories
+                          </th>
+                          <th>
+                            Record
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="col-md-1">
+                            {{data.save.rounds['Bot'].wins}}
+                          </td>
+                          <td class="col-md-1">
+                            {{data.save.rounds['Bot'].record}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

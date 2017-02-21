@@ -113,6 +113,7 @@ body{
 a.svg {
  position: relative;
  display: inline-block; 
+ cursor: pointer; 
 }
 
 a.svg:after {
@@ -141,7 +142,12 @@ a.svg:after {
     margin-left: -150px;
     overflow-y: auto;
     background: #2c3e50;
-	color: #fff;
+	  color: #fff;
+}
+
+.stats {
+    font-size:5em;
+    color:#e67e22
 }
 
 .page-content-wrapper {
@@ -165,4 +171,5 @@ a.svg:after {
 .CodeMirror {
 	border-top: 1px solid black; 
 	border-bottom: 1px solid black;
+  margin-bottom: 10px;
 }

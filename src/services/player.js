@@ -8,14 +8,6 @@ angular
 function Player() {  
   var $scope;
   this.data;
-  this.script = "";
-  this.start_rounds = {
-	  'Bot':{
-	    wins: 0,
-		record: undefined
-	  }
-	};
-  this.rounds = angular.copy(this.start_rounds);
   
   this.startPlayer = {
 	power: 15,
