@@ -114,7 +114,7 @@ function Generator(actor, opponent) {
   };
     
   this.buyPrice = function (name, number) {
-	  buyPrice(name, number);
+	  return buyPrice(name, number);
   };
   
   var buyPrice = function (name, number) {
