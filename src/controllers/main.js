@@ -24,6 +24,7 @@ function ($scope, $document, $interval, $sce, $filter, $timeout, data, util, sav
   $scope.version = '0.8.4';
   $scope.Math = window.Math;
   
+  $scope.data = data;
   $scope.util = util;
   $scope.savegame = savegame;
   $scope.player = player;
@@ -159,18 +160,14 @@ if(production > 334){\
     $interval(self.update, $scope.game_speed, 1);
   };
   
-  // move part of this to load script
   $scope.run = function() {
     if($scope.status === "stop"){
       if(!script.script){
         alert("Script is empty");
       }
-		  var opponent = angular.copy(enemy.data);
-		  opponent.script = undefined;
-      $scope.error_msg = script.eval(angular.copy(player.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
-        alert(script.script);
+
       if($scope.error_msg){
-        alert("Script has errors");
+        return;
       }
       $scope.status = "play";
     }  
@@ -194,6 +191,9 @@ if(production > 334){\
     setTimeout(function() {
       self.codeoutput.refresh();
     },1);
+    var opponent = angular.copy(enemy.data);
+		opponent.script = undefined;
+    $scope.error_msg = script.eval(angular.copy(player.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
   };
 
   $scope.changeSlot = function() {
@@ -204,11 +204,11 @@ if(production > 334){\
   };
   
   $scope.init = function () {
-    savegame.init();	
     player.populatePlayer();
     enemy.populatePlayer();
     $scope.current_tab = "Game";
     $scope.current_slot = 1;
+    $scope.changeSlot();
     $scope.turn = 0;
     $scope.goal = 2e10;
     $scope.game_speed = 1000;
@@ -218,8 +218,7 @@ if(production > 334){\
     // stop, play, fast, finish
     $scope.status = "stop";
     $scope.current_enemy = "Bot";
-    script.clearCache();
-    data.save.scripts[$scope.current_slot] = player_script;
+    script.clearCache();    
     enemy.script = enemy_script;
     scriptEnemy.script = enemy_script;
     scriptEnemy.clearCache();
@@ -234,22 +233,26 @@ if(production > 334){\
   };
   
   self.startup = function () {
-	$scope.init();
-	savegame.load();
-      
-	  self.code = CodeMirror.fromTextArea(document.getElementById('code'), {
-        lineNumbers: true
-      });
+    savegame.init();
+    data.save.scripts[$scope.current_slot] = player_script;
+    
+    self.code = CodeMirror.fromTextArea(document.getElementById('code'), {
+      lineNumbers: true
+    });
+    self.codeoutput = CodeMirror.fromTextArea(document.getElementById('codeoutput'), {
+      lineNumbers: true,
+      readOnly: true,
+      theme: 'codemirror_readonly'
+    });
+    
+	  $scope.init();
+	  savegame.load();      
+
     self.code.setValue(data.save.scripts[$scope.current_slot]);
     setTimeout(function() {
       self.code.refresh();
-    },1);
-    
-	  self.codeoutput = CodeMirror.fromTextArea(document.getElementById('codeoutput'), {
-        lineNumbers: true,
-        readOnly: true,
-        theme: 'codemirror_readonly'
-      });
+    },1);    
+
     self.codeoutput.setValue("");
     setTimeout(function() {
       self.codeoutput.refresh();

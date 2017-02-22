@@ -83,12 +83,15 @@
                 </div>
                 <div class="col-lg-6">
                   <div><textarea id="code" name="code"></textarea></div>
+                  <div class="alert alert-warning" ng-if="!script.script && status === 'stop'">You haven't loaded an script. You should load one before starting a round.</div>
+                  <div class="alert alert-danger" ng-if="error_msg && status === 'stop'">Your script has errors. You won't be able to start a round until it is fixed.</div>
                   <button class="btn btn-default btn-lg" title="Load" ng-click="loadScript()"><span class="glyphicon glyphicon-upload"></span></button>
                   <button class="btn btn-default btn-lg" title="Run" ng-class="{active:status != 'stop'}" ng-click="run();"><span class="glyphicon glyphicon-play"></span></button>
                   <button class="btn btn-default btn-lg" title="Fastforward" ng-class="{active:status == 'fast'}" ng-click="toggleFast()"><span class="glyphicon glyphicon-forward"></span></button>
                   <button class="btn btn-default btn-lg" title="Restart" ng-click="restart()"><span class="glyphicon glyphicon-repeat"></span></button>
-                  <button class="btn btn-default btn-lg" title="Slot 1" ng-class="{active:current_slot == 1}" ng-click="util.updateCurrent('current_slot',1);changeSlot();">&nbsp;1&nbsp;</button>
-                  <button class="btn btn-default btn-lg" title="Slot 2" ng-class="{active:current_slot == 2}" ng-click="util.updateCurrent('current_slot',2);changeSlot();">&nbsp;2&nbsp;</button>
+                  <span ng-repeat="(name,value) in data.save.scripts">
+                    <button class="btn btn-default btn-lg" title="Slot {{name}}" ng-class="{active:current_slot == name}" ng-click="util.updateCurrent('current_slot',name);changeSlot();">&nbsp;{{name}}&nbsp;</button>
+                  </span>
                 </div>
                 <div class="col-lg-6 pull-left">
                   <div><textarea id="codeoutput" name="codeoutput"></textarea></div>
