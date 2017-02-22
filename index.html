@@ -71,21 +71,21 @@
                   <center>
                     <h1>Turn: <span ng-bind-html="util.trustHTML(util.prettifyNumber(turn))"></span></h1>
                   </center>
-                  <center ng-if="status == 'win'" class="text-success">
+                  <center ng-if="result == 'win'" class="text-success">
                     <h1>You win!!</h1>
                   </center>
-                  <center ng-if="status == 'lose'" class="text-danger">
+                  <center ng-if="result == 'lose'" class="text-danger">
                     <h1>You lose</h1>
                   </center>
-                  <center ng-if="status == 'tie'" class="text-warning">
+                  <center ng-if="result == 'tie'" class="text-warning">
                     <h1>You tied</h1>
                   </center>
                 </div>
                 <div class="col-lg-6">
                   <div><textarea id="code" name="code"></textarea></div>
                   <button class="btn btn-default btn-lg" title="Load" ng-click="loadScript()"><span class="glyphicon glyphicon-upload"></span></button>
-                  <button class="btn btn-default btn-lg" title="Run"><span class="glyphicon glyphicon-play"></span></button>
-                  <button class="btn btn-default btn-lg" title="Fastforward"><span class="glyphicon glyphicon-forward"></span></button>
+                  <button class="btn btn-default btn-lg" title="Run" ng-class="{active:status != 'stop'}" ng-click="run();"><span class="glyphicon glyphicon-play"></span></button>
+                  <button class="btn btn-default btn-lg" title="Fastforward" ng-class="{active:status == 'fast'}" ng-click="toggleFast()"><span class="glyphicon glyphicon-forward"></span></button>
                   <button class="btn btn-default btn-lg" title="Restart" ng-click="restart()"><span class="glyphicon glyphicon-repeat"></span></button>
                   <button class="btn btn-default btn-lg" title="Slot 1" ng-class="{active:current_slot == 1}" ng-click="util.updateCurrent('current_slot',1);changeSlot();">&nbsp;1&nbsp;</button>
                   <button class="btn btn-default btn-lg" title="Slot 2" ng-class="{active:current_slot == 2}" ng-click="util.updateCurrent('current_slot',2);changeSlot();">&nbsp;2&nbsp;</button>
@@ -125,9 +125,6 @@
                             <th class="col-md-1">
                               Price
                             </th>
-                            <th class="col-md-1">
-                              Buy
-                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -149,9 +146,6 @@
                               <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(generator.generatorPrice(name)))"></div>
                               &nbsp;
                             </td>
-                            <td class="col-md-1">
-                              <button ng-click="generator.buyGenerators(name,1)">Buy</button>
-                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -171,9 +165,6 @@
                             <th class="col-md-1">
                               Price
                             </th>
-                            <th class="col-md-1">
-                              Buy
-                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -186,9 +177,6 @@
                             </td>
                             <td class="col-md-1">
                               <div class="pull-left" ng-bind-html="util.trustHTML(util.prettifyNumber(upgrade.getUpgrades()[up].price))"></div>
-                            </td>
-                            <td class="col-md-1">
-                              <button ng-click="upgrade.buyUpgrade(up)">Buy</button>
                             </td>
                           </tr>
                         </tbody>
@@ -223,8 +211,7 @@
                         <tbody>
                           <tr ng-repeat="sp in spell.getKeys()" ng-class="[{'success': player.data.spells[sp].active},{'warning': !player.data.spells[sp].active && (player.data.spells[sp].charges == undefined || player.data.spells[sp].charges > 0) && player.data.spells[sp].cooldown > 0},{'danger': !player.data.spells[sp].active && player.data.spells[sp].charges <= 0}]">
                             <td class="col-md-1">
-                              {{sp}}<br>
-                              <button ng-click="spell.activateSpell(sp)">Activate</button>
+                              {{sp}}
                             </td>
                             <td class="col-md-1" ng-if="!player.data.spells[sp].active">
                               {{spell.getSpells()[sp].duration}}
@@ -293,7 +280,6 @@
                             <td class="col-md-1">
                               <span class="pull-left">
                               {{name}}
-                              <button class="invisible">.</button>
                               </span>
                             </td>
                             <td class="col-md-1">
@@ -333,7 +319,6 @@
                           <tr ng-repeat="up in upgradeEnemy.getKeys()" ng-class="{'bg-success': enemy.data.upgrades[up].bought == true}">
                             <td class="col-md-1">
                               {{up}}
-                              <button class="invisible">.</button>
                             </td>
                             <td class="col-md-1">
                               {{upgradeEnemy.getUpgrades()[up].description}}
@@ -375,7 +360,6 @@
                           <tr ng-repeat="sp in spellEnemy.getKeys()" ng-class="[{'success': enemy.data.spells[sp].active},{'warning': !enemy.data.spells[sp].active && (enemy.data.spells[sp].charges == undefined || enemy.data.spells[sp].charges > 0) && enemy.data.spells[sp].cooldown > 0},{'danger': !enemy.data.spells[sp].active && enemy.data.spells[sp].charges <= 0}]">
                             <td class="col-md-1">
                               {{sp}}
-                              <button class="invisible">.</button>
                             </td>
                             <td class="col-md-1" ng-if="!enemy.data.spells[sp].active">
                               {{spellEnemy.getSpells()[sp].duration}}

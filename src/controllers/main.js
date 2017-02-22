@@ -118,16 +118,16 @@ if(production > 334){\
   
   self.update = function () {
     data.save.scripts[$scope.current_slot] = self.code.getValue();
-	if(!$scope.status){		
+	if($scope.status === 'play' || $scope.status === 'fast'){		
 		self.processProduction(player, enemy, generator, upgrade);
 		self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
 		
 		if(player.data.power >= $scope.goal 
 		  && enemy.data.power >= $scope.goal){
-		  $scope.status = "tie";
+		  $scope.result = "tie";
 		  return;
 		}else if(player.data.power >= $scope.goal){
-		  $scope.status = "win";
+		  $scope.result = "win";
 		  data.save.rounds[$scope.current_enemy].wins++;
 		  if(!data.save.rounds[$scope.current_enemy].record 
 		    || $scope.turn < data.save.rounds[$scope.current_enemy].record){
@@ -135,7 +135,7 @@ if(production > 334){\
 		  }
 		  return;
 		}else if(enemy.data.power >= $scope.goal){
-		  $scope.status = "lose";
+		  $scope.result = "lose";
 		  return;
 		}
 		
@@ -155,6 +155,35 @@ if(production > 334){\
 		spell.clear();
 		$scope.turn++;
 	}
+  
+    $interval(self.update, $scope.game_speed, 1);
+  };
+  
+  // move part of this to load script
+  $scope.run = function() {
+    if($scope.status === "stop"){
+      if(!script.script){
+        alert("Script is empty");
+      }
+		  var opponent = angular.copy(enemy.data);
+		  opponent.script = undefined;
+      $scope.error_msg = script.eval(angular.copy(player.data), opponent, $scope.goal, $scope.turn, $scope.totalProduction(player, enemy, generator, upgrade));
+        alert(script.script);
+      if($scope.error_msg){
+        alert("Script has errors");
+      }
+      $scope.status = "play";
+    }  
+  };
+  
+  $scope.toggleFast = function() {
+    if($scope.status === "play"){
+      $scope.status = "fast";
+      $scope.game_speed = 1;
+    }else if($scope.status === "fast"){
+      $scope.status = "play";
+      $scope.game_speed = 1000;
+    }    
   };
   
   $scope.loadScript = function() {
@@ -182,9 +211,12 @@ if(production > 334){\
     $scope.current_slot = 1;
     $scope.turn = 0;
     $scope.goal = 2e10;
+    $scope.game_speed = 1000;
     $scope.error_msg = "";
     // win, lose, tie
-    $scope.status = "";
+    $scope.result = "";
+    // stop, play, fast, finish
+    $scope.status = "stop";
     $scope.current_enemy = "Bot";
     script.clearCache();
     data.save.scripts[$scope.current_slot] = player_script;
@@ -197,6 +229,7 @@ if(production > 334){\
 	var answer = confirm("Do you want to restart the round?");
 	if(answer){
 		$scope.init();
+    $interval(self.update, $scope.game_speed, 1);
 	}
   };
   
@@ -221,7 +254,7 @@ if(production > 334){\
     setTimeout(function() {
       self.codeoutput.refresh();
     },1);
-    $interval(self.update, 400);
+    $interval(self.update, $scope.game_speed, 1);
     $interval(savegame.store, 10000);
   };
   
