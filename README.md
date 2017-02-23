@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.rawgit.com/angarg12/idle_royale/220aee84/img/ir_logo.png" width="250">
+  <img src="https://cdn.rawgit.com/angarg12/idle_royale/43fe30f4/img/ir_logo.png" width="250">
 </p>
 
 A competitive idle experiment.
