@@ -1,8 +1,8 @@
 <!DOCTYPE html>
+<meta content="text/html; charset=us-ascii" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
 <html>
   <head>
-    <meta content="text/html; charset=us-ascii" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
     <script type="text/javascript" src="lib/angular.min.js"></script>
     <script type="text/javascript" src="lib/jquery.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
@@ -29,7 +29,7 @@
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      
+
       ga('create', 'UA-58136427-6', 'auto');
       ga('send', 'pageview');
     </script>
@@ -41,17 +41,17 @@
           <a ng-click="util.updateCurrent('current_tab','Game')" class="svg" title="Main">
             <object width="130" height="130" data="img/IR_logo.svg"></object>
           </a>
-          Idle Royale 
+          Idle Royale
           <div class="version">v{{version}}</div>
         </div>
         <center>
-          <a href="https://github.com/angarg12/idle_royale/wiki" class="svg" title="Tutorial" target="_blank">
-          <object width="100" height="100" data="img/book-pile.svg"></object>
-          </a>
           <div>
           <a ng-click="util.updateCurrent('current_tab','Stats')" class="svg" title="Stats">
           <span class="glyphicon glyphicon-list stats"></span>
           </div>
+          <a href="https://github.com/angarg12/idle_royale/wiki" class="svg" title="Tutorial" target="_blank">
+          <object width="100" height="100" data="img/book-pile.svg"></object>
+          </a>
           </a>
           <br>
           <a href="https://github.com/angarg12/idle_royale" class="svg" title="GitHub" target="_blank">
@@ -61,10 +61,28 @@
       </div>
       <div class="page-content-wrapper">
         <div class="container">
-          <div class="row">
             <div class="tab-content ng-scope " id="game">
-              <div class="tab-pane row" ng-class="{active: current_tab === 'Game'}">
-                <div class="col-lg-12">
+              <div class="tab-pane" ng-class="{active: current_tab === 'Game'}">
+                <div class="row">
+                <div class="col-lg-6">
+                  <div><textarea id="code" name="code"></textarea></div>
+                  <div class="alert alert-warning" ng-if="!script.script && status === 'stop'">You haven't loaded a script. You should load one before starting a round.</div>
+                  <div class="alert alert-danger" ng-if="error_msg && status === 'stop'">Your script has errors. You won't be able to start a round until it is fixed.</div>
+                  <button class="btn btn-default btn-lg" title="Load" ng-click="loadScript()"><span class="glyphicon glyphicon-upload"></span></button>
+                  <button class="btn btn-default btn-lg" title="Run" ng-class="{active:status != 'stop'}" ng-click="run();"><span class="glyphicon glyphicon-play"></span></button>
+                  <button class="btn btn-default btn-lg" title="Fastforward" ng-class="{active:status == 'fast'}" ng-click="toggleFast()"><span class="glyphicon glyphicon-forward"></span></button>
+                  <button class="btn btn-default btn-lg" title="Restart" ng-click="restart()"><span class="glyphicon glyphicon-repeat"></span></button>
+                  <span ng-repeat="(name,value) in data.save.scripts">
+                    <button class="btn btn-default btn-lg" title="Slot {{name}}" ng-class="{active:current_slot == name}" ng-click="util.updateCurrent('current_slot',name);changeSlot();">&nbsp;{{name}}&nbsp;</button>
+                  </span>
+                </div>
+                <div class="col-lg-6 pull-left">
+                  <div><textarea id="codeoutput" name="codeoutput"></textarea></div>
+                  <div class="alert alert-danger" ng-if="error_msg"><strong>Error:</strong> <span ng-bind-html="util.trustHTML(error_msg)"></span></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
                   <center>
                     <h1>Goal: <span ng-bind-html="util.trustHTML(util.prettifyNumber(goal))"></span></h1>
                   </center>
@@ -82,22 +100,13 @@
                   </center>
                 </div>
                 <div class="col-lg-6">
-                  <div><textarea id="code" name="code"></textarea></div>
-                  <div class="alert alert-warning" ng-if="!script.script && status === 'stop'">You haven't loaded an script. You should load one before starting a round.</div>
-                  <div class="alert alert-danger" ng-if="error_msg && status === 'stop'">Your script has errors. You won't be able to start a round until it is fixed.</div>
-                  <button class="btn btn-default btn-lg" title="Load" ng-click="loadScript()"><span class="glyphicon glyphicon-upload"></span></button>
-                  <button class="btn btn-default btn-lg" title="Run" ng-class="{active:status != 'stop'}" ng-click="run();"><span class="glyphicon glyphicon-play"></span></button>
-                  <button class="btn btn-default btn-lg" title="Fastforward" ng-class="{active:status == 'fast'}" ng-click="toggleFast()"><span class="glyphicon glyphicon-forward"></span></button>
-                  <button class="btn btn-default btn-lg" title="Restart" ng-click="restart()"><span class="glyphicon glyphicon-repeat"></span></button>
-                  <span ng-repeat="(name,value) in data.save.scripts">
-                    <button class="btn btn-default btn-lg" title="Slot {{name}}" ng-class="{active:current_slot == name}" ng-click="util.updateCurrent('current_slot',name);changeSlot();">&nbsp;{{name}}&nbsp;</button>
-                  </span>
+                  Enemy:
+                  <select ng-model="current_enemy" ng-change="changeEnemy()" ng-disabled="status != 'stop'">
+                    <option ng-repeat="(name, v) in data.enemy_scripts" value="{{name}}">{{name}}</option>
+                  </select>
                 </div>
-                <div class="col-lg-6 pull-left">
-                  <div><textarea id="codeoutput" name="codeoutput"></textarea></div>
-                  <div class="alert alert-danger" ng-if="error_msg"><strong>Error:</strong> <span ng-bind-html="util.trustHTML(error_msg)"></span></div>
-                </div>
-                <div class="col-lg-12"></div>
+              </div>
+              <div class="row">
                 <div class="col-lg-6">
                   <h1>Player</h1>
                   <h2>Goal</h2>
@@ -223,7 +232,7 @@
                               {{player.data.spells[sp].duration}}
                             </td>
                             <td class="col-md-1" ng-if="!player.data.spells[sp].cooldown ||  player.data.spells[sp].cooldown <= 0">
-                              {{spell.getSpells()[sp].cooldown}} 
+                              {{spell.getSpells()[sp].cooldown}}
                             </td>
                             <td class="col-md-1" ng-if="player.data.spells[sp].cooldown > 0">
                               {{player.data.spells[sp].cooldown}}
@@ -247,7 +256,7 @@
                   </div>
                 </div>
                 <div class="col-lg-6 bot-area">
-                  <h1>Bot</h1>
+                  <h1>{{current_enemy}}</h1>
                   <h2>Goal</h2>
                   <div class="progress-striped">
                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width:{{enemy.data.power/goal*100}}%">
@@ -371,7 +380,7 @@
                               {{enemy.data.spells[sp].duration}}
                             </td>
                             <td class="col-md-1" ng-if="!enemy.data.spells[sp].cooldown ||  enemy.data.spells[sp].cooldown <= 0">
-                              {{spellEnemy.getSpells()[sp].cooldown}} 
+                              {{spellEnemy.getSpells()[sp].cooldown}}
                             </td>
                             <td class="col-md-1" ng-if="enemy.data.spells[sp].cooldown > 0">
                               {{enemy.data.spells[sp].cooldown}}
@@ -395,13 +404,18 @@
                   </div>
                 </div>
               </div>
-              <div class="tab-pane row" ng-class="{active: current_tab === 'Stats'}">
-                <div class="col-lg-12">
+              </div>
+              <div class="tab-pane" ng-class="{active: current_tab === 'Stats'}">
+                <div class="row">
                   <h1>Stats</h1>
+                  <h2>Wins</h2>
                   <div class="col-lg-4">
                     <table class="table">
                       <thead>
                         <tr class="active">
+                          <th>
+                            Enemy
+                          </th>
                           <th>
                             Victories
                           </th>
@@ -411,12 +425,54 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr ng-repeat="(name, record) in data.save.rounds">
                           <td class="col-md-1">
-                            {{data.save.rounds['Bot'].wins}}
+                            {{name}}
                           </td>
                           <td class="col-md-1">
-                            {{data.save.rounds['Bot'].record}}
+                            {{record.wins}}
+                          </td>
+                          <td class="col-md-1">
+                            {{record.record}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <h2>Enemies</h2>
+                  <div class="col-lg-4">
+                    <table class="table">
+                      <thead>
+                        <tr class="active">
+                          <th>
+                            Enemy
+                          </th>
+                          <th>
+                            Dry run
+                          </th>
+                          <th>
+                            Statements
+                          </th>
+                          <th>
+                            Complexity
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(name, record) in data.script_stats">
+                          <td class="col-md-1">
+                            {{name}}
+                          </td>
+                          <td class="col-md-1">
+                            {{record.dry_run}}
+                          </td>
+                          <td class="col-md-1">
+                            {{record.statements}}
+                          </td>
+                          <td class="col-md-1">
+                            {{record.complexity}}
                           </td>
                         </tr>
                       </tbody>
@@ -425,7 +481,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

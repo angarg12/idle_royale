@@ -12,19 +12,19 @@ Spell
 ]);
 
 function Spell(actor, opponent) {
-  var spells = {	  
+  var spells = {
 	'Surge':{
 		description: 'Increase production by 10%',
 		price: 1e4,
 		duration: 60,
 		cooldown: 150
-	}, 
+	},
 	'Drain':{
 		description: 'Decrease enemy production by 10%',
 		price: 1e4,
 		duration: 60,
 		cooldown: 150
-	}, 
+	},
 	'Armageddon':{
 		description: 'Destroy all generators for all players',
 	    effect: function(){
@@ -39,7 +39,7 @@ function Spell(actor, opponent) {
 		},
 		price: 1,
 		charges: 1
-	}, 
+	},
 	'Humility':{
 		description: 'Disable all upgrades for all players',
 	    effect: function(){
@@ -49,18 +49,18 @@ function Spell(actor, opponent) {
 		price: 2e6,
 		duration: Infinity,
 		charges: 1
-	}, 
+	},
 	'Weakness':{
 		description: 'Set power to 0 for all players',
 	    effect: function(){
-			actor.data.power = 0; 
+			actor.data.power = 0;
 			opponent.data.power = 0;
 		},
 		price: 1.5e10,
 		charges: 1
 	}
   };
-  
+
   var keys = Object.keys(spells);
 
   this.getKeys = function(){
@@ -76,9 +76,9 @@ function Spell(actor, opponent) {
   this.clear = function(){
 	copy = angular.copy(spells);
   };
-	
+
   this.activateSpell = function (name) {
-    if(actor.data.spells[name].active 
+    if(actor.data.spells[name].active
 	   || actor.data.spells[name].cooldown > 0
 	   || (actor.data.spells[name].charges <= 0)){
 	  return false;
@@ -100,7 +100,7 @@ function Spell(actor, opponent) {
 		  actor.data.spells[name].charges--;
 		}
 	  }
-	  
+
 	  if(spells[name].effect){
 	    spells[name].effect();
 	  }

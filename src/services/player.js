@@ -5,11 +5,11 @@ angular
 .service('enemy',
 [Player]);
 
-function Player() {  
+function Player() {
   var $scope;
   this.data;
-  
-  this.startPlayer = {
+
+  this.start_player = {
 	power: 15,
 	generators: {
 		'Tier 1':{level:0},
@@ -71,25 +71,25 @@ function Player() {
 	  },
 	  'Drain':{
 		active: false
-	  }, 
+	  },
 	  'Armageddon':{
 		active: false
-	  }, 
+	  },
 	  'Humility':{
 		active: false
-	  }, 
+	  },
 	  'Weakness':{
 		active: false
 	  }
 	}
   };
-  
+
   this.setScope = function (scope){
     $scope = scope;
-    this.startPlayer.version = $scope.version;
+    this.start_player.version = $scope.version;
   };
 
   this.populatePlayer = function () {
-    this.data = angular.copy(this.startPlayer);
+    this.data = angular.copy(this.start_player);
   };
 }

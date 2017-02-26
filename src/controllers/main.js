@@ -110,23 +110,6 @@ function($scope, $document, $interval, $sce, $filter, $timeout, data, util, save
             self.processProduction(player, enemy, generator, upgrade);
             self.processProduction(enemy, player, generatorEnemy, upgradeEnemy);
 
-            if (player.data.power >= $scope.goal &&
-                enemy.data.power >= $scope.goal) {
-                $scope.result = "tie";
-                return;
-            } else if (player.data.power >= $scope.goal) {
-                $scope.result = "win";
-                data.save.rounds[$scope.current_enemy].wins++;
-                if (!data.save.rounds[$scope.current_enemy].record ||
-                    $scope.turn < data.save.rounds[$scope.current_enemy].record) {
-                    data.save.rounds[$scope.current_enemy].record = $scope.turn;
-                }
-                return;
-            } else if (enemy.data.power >= $scope.goal) {
-                $scope.result = "lose";
-                return;
-            }
-
             self.processSpells(player);
             self.processSpells(enemy);
             var opponent = angular.copy(enemy.data);
@@ -142,6 +125,23 @@ function($scope, $document, $interval, $sce, $filter, $timeout, data, util, save
             upgrade.clear();
             spell.clear();
             $scope.turn++;
+
+            if (player.data.power >= $scope.goal &&
+                enemy.data.power >= $scope.goal) {
+                $scope.result = "tie";
+                $scope.status = "finish";
+            } else if (player.data.power >= $scope.goal) {
+                $scope.result = "win";
+                $scope.status = "finish";
+                data.save.rounds[$scope.current_enemy].wins++;
+                if (!data.save.rounds[$scope.current_enemy].record ||
+                    $scope.turn < data.save.rounds[$scope.current_enemy].record) {
+                    data.save.rounds[$scope.current_enemy].record = $scope.turn;
+                }
+            } else if (enemy.data.power >= $scope.goal) {
+                $scope.result = "lose";
+                $scope.status = "finish";
+            }
         }
 
         this.main_loop = $interval(self.update, $scope.game_speed, 1);
@@ -206,7 +206,6 @@ function($scope, $document, $interval, $sce, $filter, $timeout, data, util, save
         $scope.result = "";
         // stop, play, fast, finish, restart
         $scope.status = "stop";
-        $scope.current_enemy = "Bot";
         script.clearCache();
         enemy.script = data.enemy_scripts[$scope.current_enemy];
         scriptEnemy.script = enemy.script;
@@ -233,6 +232,7 @@ function($scope, $document, $interval, $sce, $filter, $timeout, data, util, save
             theme: 'codemirror_readonly'
         });
 
+        $scope.current_enemy = "IblobTouch";
         $scope.init();
         savegame.load();
 

@@ -7,10 +7,6 @@
   font-size:85%;
 }
 
-body{
-    padding-bottom:170px;
-}
-
 .affix {
 	top:0;
 	width:20%;
@@ -112,12 +108,12 @@ body{
 
 a.svg {
  position: relative;
- display: inline-block; 
- cursor: pointer; 
+ display: inline-block;
+ cursor: pointer;
 }
 
 a.svg:after {
-  content: ""; 
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -169,7 +165,7 @@ a.svg:after {
 }
 
 .CodeMirror {
-	border-top: 1px solid black; 
+	border-top: 1px solid black;
 	border-bottom: 1px solid black;
   margin-bottom: 10px;
 }
