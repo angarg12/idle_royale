@@ -7,7 +7,9 @@ function() {
 
   this.start_save = {
     scripts: {
-      1:"",
+      1:"for (var genName in generator.getKeys()){\n\
+  generator.buyGenerators(generator.getKeys()[genName],1);\n\
+}",
       2:"",
       3:"",
       4:"",
